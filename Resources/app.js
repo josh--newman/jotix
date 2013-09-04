@@ -1,6 +1,13 @@
 var Settings = require('model/settings');
-Settings().setFont(4);
-Settings().setTheme(0);
+
+function updateView() {
+	Ti.API.log('Main.updateView()');
+	initTable.updateView();
+	mainContainer.font = {fontFamily: Settings().font()};
+	mainContainer.color = Settings().theme().text;
+	mainContainer.backgroundColor = Settings().theme().bg;
+	mainContainer.barColor = Settings().theme().bg;
+}
 
 /**
  * BUILD WINDOW STUFF
@@ -13,15 +20,17 @@ Settings().setTheme(0);
  *     > ...STUFF
  */
 
-
 var JotixTable = require('ui/main/jotixTable'); 
-var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({});
+var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({
+	top: 20
+});
 var mainContainer = Titanium.UI.createWindow({  
 	tabBarHidden: true,
-	navBarHidden: true
+	navBarHidden: true,
+	top: 0
 });
-var initTable = new JotixTable({navGroup: mainNavGroup, parentId: "pID"});
-mainNavGroup.window = initTable.table;
+var initTable = JotixTable({navGroup: mainNavGroup, parentId: "pID"});
+mainNavGroup.window = initTable.win;
 updateView();
 mainContainer.add(mainNavGroup);
 
@@ -37,12 +46,3 @@ settingsButton.addEventListener('click', function() {
 mainNavGroup.window.leftNavButton = settingsButton;
 
 mainContainer.open();
-
-function updateView() {
-	Ti.API.log('Main.updateView()');
-	initTable.updateView();
-	mainContainer.font = {fontFamily: Settings().font()};
-	mainContainer.color = Settings().theme().text;
-	mainContainer.backgroundColor = Settings().theme().bg;
-	mainContainer.barColor = Settings().theme().bg;
-}

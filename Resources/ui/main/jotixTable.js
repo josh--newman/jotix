@@ -17,20 +17,26 @@ function newList(_args){
 	
 	var LABEL_PADDING = 15;
 	
+	var THEME_GB          = Settings().theme().bg,
+		THEME_GB2         = Settings().theme().bg2,
+		THEME_FONT_FAMILY = Settings().font(),
+		THEME_FONT_COLOR  = Settings().theme().text,
+		THEME_SEARCH_COLOR= Settings().theme().bg2;
+	
 	for (var i = 0; i < count; i++) {
 		thisId = (nextId + i);
 		var row = Ti.UI.createTableViewRow({
 			  height: Ti.UI.SIZE,
 			hasChild: true,
-	 backgroundColor: Settings().theme().bg,
+	 backgroundColor: THEME_GB,
 			  thisId: thisId,
 			navGroup: navGroup
 		});
 		styledElements.rows.push(row);
 		var label = Ti.UI.createLabel({
 			  text: thisId + " and this is the best app!",
-			  font: {fontFamily: Settings().font()},
-			 color: Settings().theme().text,
+			  font: {fontFamily: THEME_FONT_FAMILY},
+			 color: THEME_FONT_COLOR,
 			height: Ti.UI.SIZE,
 			  left: LABEL_PADDING,
 			   top: LABEL_PADDING,
@@ -43,9 +49,9 @@ function newList(_args){
 	
 	// CREATE SEARCH
 	var search = Titanium.UI.createSearchBar({
-		barColor: Settings().theme().bg2,
+		  barColor: THEME_SEARCH_COLOR,
 		showCancel: false,
-		hintText: 'search'
+		  hintText: 'search'
 	});
 	search.addEventListener('change', function(e){
 		e.value; // search string as user types
@@ -59,9 +65,10 @@ function newList(_args){
 	
 	// CREATE TABLE
 	var table = Ti.UI.createTableView({
-		  data: [data],
-		search: search,
-		searchHidden:true
+		        data: [data],
+		      search: search,
+		searchHidden: true,
+		    editable: true
 	});
 	table.addEventListener('click', function(e) {
 		hideToolbar();
@@ -80,43 +87,50 @@ function newList(_args){
 	});
 	
 	function hideToolbar() {
-		self.setToolbar([]);
+		self.setToolbar(null,{animated:true});
 		self.rightNavButton = edit1;
 	}
 	
 	// UPDATE VIEW
 	function updateView() {
 		Ti.API.log('JotixNotes.updateView()');
+		
+		THEME_GB          = Settings().theme().bg,
+		THEME_GB2         = Settings().theme().bg2,
+		THEME_FONT_FAMILY = Settings().font(),
+		THEME_FONT_COLOR  = Settings().theme().text,
+		THEME_SEARCH_COLOR= Settings().theme().bg2;
+		
 		for (var row in styledElements.rows) {
-			styledElements.rows[row].backgroundColor = Settings().theme().bg;
+			styledElements.rows[row].backgroundColor = THEME_GB;
 		} 
 		for (var rowLabel in styledElements.rowLabels) {
-			styledElements.rowLabels[rowLabel].font  = {fontFamily: Settings().font()};
-			styledElements.rowLabels[rowLabel].color = Settings().theme().text;
+			styledElements.rowLabels[rowLabel].font  = {fontFamily: THEME_FONT_FAMILY};
+			styledElements.rowLabels[rowLabel].color = THEME_FONT_COLOR;
 		} 
 		for (var i in styledElements.other) {
-			styledElements.other[i].font = {fontFamily: Settings().font()};
-			styledElements.other[i].color = Settings().theme().text;
-			styledElements.other[i].backgroundColor = Settings().theme().bg2;
-			styledElements.other[i].barColor = Settings().theme().bg;
+			styledElements.other[i].font = {fontFamily: THEME_FONT_FAMILY};
+			styledElements.other[i].color = THEME_FONT_COLOR;
+			styledElements.other[i].backgroundColor = THEME_GB2;
+			styledElements.other[i].barColor = THEME_GB;
 		}		
 	}
 	
 	// CREATE VIEW
 	var self = Titanium.UI.createWindow({ 
-		rightNavButton: edit1,
-		font: {fontFamily: Settings().font()},
-		color: Settings().theme().text,
-		backgroundColor: Settings().theme().bg2,
-	    barColor: Settings().theme().bg,
-	    tabBarHidden: true
+		 rightNavButton: edit1,
+		           font: {fontFamily: THEME_FONT_FAMILY},
+		          color: THEME_FONT_COLOR,
+		backgroundColor: THEME_GB2,
+	           barColor: THEME_GB,
+	       tabBarHidden: true
 	});
 	styledElements.other.push(self);
 	self.add(table);
 	
 	// RETURN VIEW
-	updateView();
-	return {table: self, updateView: updateView};
+	// updateView();
+	return {win: self, updateView: updateView};
 }
 
 function showNotes(e) {
@@ -125,7 +139,7 @@ function showNotes(e) {
 	var navGroup = e.rowData.navGroup;
 	var parentId = e.rowData.thisId;
 	Ti.API.log("parentId:" + parentId);
-	navGroup.open(newList({navGroup: navGroup, parentId: parentId}).table);
+	navGroup.open(newList({navGroup: navGroup, parentId: parentId}).win);
 }
 
 module.exports = newList;

@@ -8,6 +8,10 @@ function SettingsWeb(_args) {
 		tabBarHidden: true
 	});
 	
+	self.add(Ti.UI.createWebView({
+		url: 'http://www.apple.com'
+	}));
+	
 	return self;
 }
 
