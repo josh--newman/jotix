@@ -1,5 +1,8 @@
-var _theme = 0,
-	_themes = [
+/**
+ * STATIC VALUES
+ */
+
+var _themes = [
 		{
 			title: "Default",
 			text : "#000",		// Black
@@ -27,10 +30,13 @@ var _theme = 0,
 			bg2  : "#E7E1D5",	// darker sepia
 			bg3  : "#F5EFDC"	// other sepia
 		}
-	];	
+	],
+	_themeNames = [];
+for (var i in _themes) {
+	_themeNames.push(_themes[i].title);
+}
 
-var _font = 0,
-	_fonts=[
+var _fonts=[
 		"Avenir",
 		"Baskerville",
 		"Courier New",
@@ -39,44 +45,63 @@ var _font = 0,
 		"Palatino"
 	];
 
+var VOL_MAX = 100,
+	VOL_MIN = 0;
+
+/**
+ * SETTER/GETTER Functions
+ */
 
 function SettingsData(_args) {
+	
 	// THEMES
 	function setTheme(theme) {
-		Ti.API.log("Old Theme: " + _themes[_theme].title);
-		if (theme < _themes.length) {
-			_theme = theme;
+		Ti.API.log("Old Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
+		if (theme < _themes.length && theme >= 0) {
+			Titanium.App.Properties.setInt("theme", theme);
 		}
-		Ti.API.log("New Theme: " + _themes[_theme].title);
+		Ti.API.log("New Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
 	}
 	function theme() {
-		return _themes[_theme];
+		return _themes[Titanium.App.Properties.getInt("theme", 0)];
 	}
 	function themeIndex() {
-		return _theme;
+		return Titanium.App.Properties.getInt("theme", 0);
 	}
 	function themeNames() {
-		var data = [];
-		for (var i in _themes) {
-			data.push(_themes[i].title);
-		}
-		return data;
+		return _themeNames;
 	}
 
 	// FONTS
 	function setFont(font) {
-		if (font < _fonts.length) {
-			_font = font;
+		if (font < _fonts.length && font >= 0) {
+			Titanium.App.Properties.setInt("font", font);
 		}
 	}
 	function font() {
-		return _fonts[_font];
+		return _fonts[Titanium.App.Properties.getInt("font", 4)];
 	}
 	function fontIndex() {
-		return _font;
+		return Titanium.App.Properties.getInt("font", 4);
 	}
 	function fontNames() {
 		return _fonts;
+	}
+	
+	// SOUND
+	function setSound(toggle) {
+		Titanium.App.Properties.setBool("sound", toggle);
+	}
+	function sound() {
+		return Titanium.App.Properties.getBool("sound", true);		
+	}
+	function setVolume(vol) {
+		if (vol <= VOL_MAX && vol >= VOL_MIN) {
+			Titanium.App.Properties.setInt("volume", Math.round(vol));
+		}
+	}
+	function volume() {
+		return Titanium.App.Properties.getInt("volume", 50);
 	}
 	
 	return {
@@ -88,7 +113,12 @@ function SettingsData(_args) {
 		   setFont: setFont,
 		      font: font,
 		 fontIndex: fontIndex,
-		 fontNames: fontNames
+		 fontNames: fontNames,
+		 
+		  setSound: setSound,
+		     sound: sound,
+		 setVolume: setVolume,
+		    volume: volume
 	};
 }
 

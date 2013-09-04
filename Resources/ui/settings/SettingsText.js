@@ -11,12 +11,12 @@ function SettingsText(_args) {
 	settingsUpdateView = _args.updateView;
 	
 	var self = Ti.UI.createWindow({
-		title: "Text",
-		font : {fontFamily: Settings().font()},
-		color: Settings().theme().text,
+		          title: "Text",
+		           font: {fontFamily: Settings().font()},
+		          color: Settings().theme().text,
 		backgroundColor: Settings().theme().bg2,
-	    barColor: Settings().theme().bg,
-		tabBarHidden: true
+	           barColor: Settings().theme().bg,
+		   tabBarHidden: true
 	});
 	
 	settingsTable = buildTable(self);
@@ -99,8 +99,7 @@ function fontSelected(e, view) {
 	var fontID = e.index;
 	Ti.API.log('newFont: ' + fontNames[fontID]);
 	Settings().setFont(fontID);
-	fontIndex  = Settings().fontIndex(),
-	fontNames  = Settings().fontNames();
+	fontIndex  = Settings().fontIndex();
 	updateView(view);
 }
 
@@ -108,8 +107,7 @@ function themeSelected(e, view) {
 	var themeID = e.index - fontNames.length;
 	Ti.API.log('newTheme: ' + themeNames[themeID]);
 	Settings().setTheme(themeID);	
-	themeIndex = Settings().themeIndex(),
-	themeNames = Settings().themeNames();
+	themeIndex = Settings().themeIndex();
 	updateView(view);
 }
 
@@ -125,6 +123,15 @@ function updateView(view) {
 		// styledElements[view].backgroundColor = Settings().theme().bg2;
 		// styledElements[view].barColor = Settings().theme().bg;
 	// }
+	if (themeNames[themeIndex] != 'Invert') {
+		// Status bar black with white writing
+		Ti.API.log('Status Bar Changed to: OPAQUE_BLACK');
+		Titanium.UI.iPhone.statusBarStyle = Titanium.UI.iPhone.StatusBar.OPAQUE_BLACK;
+	} else {
+		// Status bar white with black writing
+		Ti.API.log('Status Bar Changed to: DEFAULT');
+		Titanium.UI.iPhone.statusBarStyle = Titanium.UI.iPhone.StatusBar.DEFAULT;
+	}
 	settingsUpdateView();
 }
 

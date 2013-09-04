@@ -1,3 +1,5 @@
+var needsUpdate = false;
+
 function SettingsMain(_args) {
 	
 	var styledElements = [];
@@ -9,7 +11,8 @@ function SettingsMain(_args) {
 	 *     > EACH VIEW
 	 */
 	var settingsContainer = Ti.UI.createWindow({
-		navBarHidden: true
+		navBarHidden: true,
+		top: 0
 	});
 	
 	var settingsMain = Ti.UI.createWindow({
@@ -18,7 +21,10 @@ function SettingsMain(_args) {
 	
 	var done = Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.DONE});
 	done.addEventListener('click', function() {
-		_args.updateView();
+		if (needsUpdate) {
+			needsUpdate = false;
+			_args.updateView();
+		}
 		settingsContainer.close({modal:true});
 	});
 	settingsMain.leftNavButton = done;
@@ -65,7 +71,7 @@ function SettingsMain(_args) {
 		// settingsContainer
 		settingsContainer.font = {fontFamily: Settings().font()};
 		settingsContainer.color = Settings().theme().text;
-		settingsContainer.backgroundColor = Settings().theme().bg2;
+		settingsContainer.backgroundColor = Settings().theme().bg;
 		// settingsMain
 		settingsMain.font = {fontFamily: Settings().font()};
 		settingsMain.color = Settings().theme().text;
@@ -81,6 +87,7 @@ function SettingsMain(_args) {
 			settingRows[row].color = Settings().theme().text;
 			settingRows[row].backgroundColor = Settings().theme().bg;
 		}
+		needsUpdate = true;
 	}
 
 	/**
@@ -91,11 +98,13 @@ function SettingsMain(_args) {
 	    settingsWeb   = require('ui/settings/SettingsWeb');
 	
 	var navGroup = Ti.UI.iPhone.createNavigationGroup({
-		window:settingsMain
+		window:settingsMain,
+		top: 20
 	});
 	settingsContainer.add(navGroup);
 
 	updateView();
+	needsUpdate = false;
 	return {view: settingsContainer, updateView: updateView};
 }
 
