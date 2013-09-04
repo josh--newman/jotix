@@ -11,20 +11,20 @@ function updateView() {
 
 /**
  * BUILD WINDOW STUFF
- * 
+ *
  *  >> MAIN CONTAINER
  *     > NAVGROUP
  *       > JOTIXTABLE
- * 
+ *
  *  >> SETTINGS CONTAINER
  *     > ...STUFF
  */
 
-var JotixTable = require('ui/main/jotixTable'); 
+var JotixTable = require('ui/main/jotixTable');
 var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({
 	top: 20
 });
-var mainContainer = Titanium.UI.createWindow({  
+var mainContainer = Titanium.UI.createWindow({
 	tabBarHidden: true,
 	navBarHidden: true,
 	top: 0
