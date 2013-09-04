@@ -1,24 +1,32 @@
 function Database(_args) {
 	
-	// create a new item
-	function createItem(parentId, content) {
-		var db = Ti.Database.open("jotixdb");
-		db.execute('CREATE TABLE IF NOT EXISTS notes (parentId INT, content TEXT, dateCreated TEXT, order INT)');
-		db.execute('INSERT INTO notes (parentId, content) VALUES (?,?)', parentId, content); // need some way to get the order
+	// create a new note
+	function createNote(parentId, content) {
+		var db = Ti.Database.open("jotixdbv1");
+		var breadcrumbs = db.execute('SELECT breadcrumbs FROM notes WHERE noteId = (?)', parentId).fieldByName('breadcrumbs') + ">" + content;
+		db.execute('INSERT INTO notes (parentId, content, breadcrumbs) VALUES (?,?,?)', parentId, content, breadcrumbs);
 		db.close();
 	}
 	
-	// update existing item
-	function updateItem(item, newContent) {
-		// var db = Ti.Database.open("maindb");
-		// db.close();
+	function showNotes(parentId) {
+		var db = Ti.Database.open("jotixdbv1");
+		var rows = db.execute('SELECT * FROM notes WHERE parentId = (?)', parentId);
+		db.close();
+		return rows;
 	}
 	
-	// delete an item
-	function deleteItem(item) {
-		// var db = Ti.Database.open("jotixdb");
-		
-		// db.close();
+	// update existing note
+	function updateNote(id, newContent) {
+		var db = Ti.Database.open("jotixdbv1");
+		db.execute('UPDATE notes SET content = (?), dateModified = CURRENT_TIMESTAMP WHERE noteId = (?)', content,  id);
+		db.close();
+	}
+	
+	// delete a note
+	function deleteNote(id) {
+		var db = Ti.Database.open("jotixdbv1");
+		db.execute('DELETE FROM notes WHERE noteId = ' + id);
+		db.close();
 	}
 	
 }
