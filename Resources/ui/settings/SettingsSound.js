@@ -15,7 +15,8 @@ function SettingsSound(_args) {
 		         height: 44,
 		           font: {fontFamily: Settings().font()},
 		          color: Settings().theme().text,
-		backgroundColor: Settings().theme().bg
+		backgroundColor: Settings().theme().bg,
+		   touchEnabled: false
 	});
 	var soundToggle = Ti.UI.createSwitch({
 		right: 10,
@@ -35,7 +36,8 @@ function SettingsSound(_args) {
 	
 	var rowVolume = Ti.UI.createTableViewRow({
 		         height: 44,
-		backgroundColor: Settings().theme().bg	
+		backgroundColor: Settings().theme().bg,
+		   touchEnabled: false
 	});
 	var volumeSlider = Ti.UI.createSlider({
 		  left: 15,
@@ -63,7 +65,8 @@ function SettingsSound(_args) {
 		           font: {fontFamily: Settings().font()},
 		          color: Settings().theme().text,
 		backgroundColor: Settings().theme().bg2,
-		           data: data
+		           data: data,
+		allowsSelection: false
 	});
 	
 	self.add(settingsTable);
