@@ -1,4 +1,4 @@
-function Database(_args) {
+function database() {
 	
 	// create a new note
 	function createNote(parentId, content) {
@@ -46,4 +46,4 @@ function Database(_args) {
 	
 }
 
-module.exports = Database;
+module.exports = database;
