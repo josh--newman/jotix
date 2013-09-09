@@ -12,7 +12,6 @@ function SettingsText(_args) {
 	
 	var self = Ti.UI.createWindow({
 		          title: "Text",
-		           font: {fontFamily: Settings().font()},
 		          color: Settings().theme().text,
 		backgroundColor: Settings().theme().bg2,
 	           barColor: Settings().theme().bg,
@@ -64,7 +63,6 @@ function buildTable(view) {
 	for (var i = 0; i<themeNames.length; i++) {
 		var row1 = Ti.UI.createTableViewRow({
 			title: themeNames[i],
-			font : {fontFamily: Settings().font()},
 			color: Settings().theme().text,
 			backgroundColor: Settings().theme().bg
 		});

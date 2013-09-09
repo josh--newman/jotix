@@ -69,21 +69,17 @@ function SettingsMain(_args) {
 	function updateView() {
 		Ti.API.log('SettingsMain.updateView()');
 		// settingsContainer
-		settingsContainer.font = {fontFamily: Settings().font()};
 		settingsContainer.color = Settings().theme().text;
 		settingsContainer.backgroundColor = Settings().theme().bg;
 		// settingsMain
-		settingsMain.font = {fontFamily: Settings().font()};
 		settingsMain.color = Settings().theme().text;
 		settingsMain.backgroundColor = Settings().theme().bg2;
 	    settingsMain.barColor = Settings().theme().bg;
 	    // settingsTable
-		settingsTable.font = {fontFamily: Settings().font()};
 		settingsTable.color = Settings().theme().text;
 		settingsTable.backgroundColor = Settings().theme().bg2;
 		// settingRows []
 		for (var row in settingRows) {
-			settingRows[row].font = {fontFamily: Settings().font()};
 			settingRows[row].color = Settings().theme().text;
 			settingRows[row].backgroundColor = Settings().theme().bg;
 		}
