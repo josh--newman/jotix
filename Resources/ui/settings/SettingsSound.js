@@ -23,15 +23,6 @@ function SettingsSound(_args) {
 	rowSound.add(soundToggle);
 	data.push(rowSound);
 	
-	soundToggle.addEventListener('change', function(e){
-		if (e.value == false) {
-			settingsTable.deleteRow(1, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.TOP});
-		} else {
-			settingsTable.appendRow(rowVolume, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.TOP});
-		}
-		Settings().setSound(e.value);
-	});
-	
 	var rowVolume = Ti.UI.createTableViewRow({
 		         height: 44,
 		backgroundColor: Settings().theme().bg,
@@ -49,15 +40,6 @@ function SettingsSound(_args) {
 		data.push(rowVolume);
 	}
 	
-	// volumeSlider.addEventListener('change', function(e){
-		// Ti.API.log('volume: ' + Math.round(e.value));
-	// });
-	volumeSlider.addEventListener('touchend', function(e){
-		// Ti.API.log('volume: ' + Math.round(e.value));
-		// SET VOLUME TO SETTINGS
-		Settings().setVolume(e.value);
-	});
-	
 	var settingsTable = Ti.UI.createTableView({
 		          style: Ti.UI.iPhone.TableViewStyle.GROUPED,
 		          color: Settings().theme().text,
@@ -68,7 +50,30 @@ function SettingsSound(_args) {
 	
 	self.add(settingsTable);
 	
-	return self;
+	
+	/**
+	 * CONTROLLER
+	 */
+	soundToggle.addEventListener('change', function(e){
+		if (e.value === false) {
+			settingsTable.deleteRow(1, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.TOP});
+		} else {
+			settingsTable.appendRow(rowVolume, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.TOP});
+		}
+		Settings().setSound(e.value);
+	});
+	// volumeSlider.addEventListener('change', function(e){
+		// Ti.API.log('volume: ' + Math.round(e.value));
+	// });
+	volumeSlider.addEventListener('touchend', function(e){
+		Settings().setVolume(e.value);
+	});
+
+
+	/**
+	 * RETURN SELF
+	 */
+ 	return self;
 }
 
 module.exports = SettingsSound;

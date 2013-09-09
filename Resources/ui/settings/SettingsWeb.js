@@ -1,10 +1,10 @@
 function SettingsWeb(_args) {
 	var self = Ti.UI.createWindow({
-		title: "Web",
-		color: Settings().theme().text,
+		          title: "Web",
+		          color: Settings().theme().text,
 		backgroundColor: Settings().theme().bg2,
-	    barColor: Settings().theme().bg,
-		tabBarHidden: true
+	    	   barColor: Settings().theme().bg,
+		   tabBarHidden: true
 	});
 	
 	var webview = Ti.UI.createWebView({
@@ -15,6 +15,10 @@ function SettingsWeb(_args) {
 	var openInSafariButton = Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.ACTION});
 	self.setRightNavButton(openInSafariButton);
 	
+	
+	/**
+	 * CONTROLLER
+	 */
 	openInSafariButton.addEventListener('click', function(e){
 	  var dialog = Ti.UI.createAlertDialog({
 	    cancel: 0,

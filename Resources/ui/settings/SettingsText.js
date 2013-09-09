@@ -18,27 +18,13 @@ function SettingsText(_args) {
 		   tabBarHidden: true
 	});
 	
-	settingsTable = buildTable(self);
-	
-	self.add(settingsTable);
-	
-	styledElements.push(self);
-	
-	return self;
-}
-
-function buildTable(view) {
 	// FONTS
-	
-	var fontSec = Ti.UI.createTableViewSection({
-		headerTitle: "Font"
-	});	
-	
+	var fontSec = Ti.UI.createTableViewSection({headerTitle: "Font"});	
 	for (var i = 0; i<fontNames.length; i++) {
 		var row1 = Ti.UI.createTableViewRow({
-			title: fontNames[i],
-			font : {fontFamily: fontNames[i]},
-			color: Settings().theme().text,
+					  title: fontNames[i],
+					   font: {fontFamily: fontNames[i]},
+					  color: Settings().theme().text,
 			backgroundColor: Settings().theme().bg
 		});
 		if (fontIndex == i) {
@@ -50,67 +36,62 @@ function buildTable(view) {
 		fontSec.add(row1);
 	}	
 	
-	fontSec.addEventListener('click', function(e) {
-		fontSelected(e, view);
-	});
-	
+
 	// THEMES
-	
-	var themeSec = Ti.UI.createTableViewSection({
-		headerTitle: "Theme"
-	});	
+	var themeSec = Ti.UI.createTableViewSection({headerTitle: "Theme"});	
 	
 	for (var i = 0; i<themeNames.length; i++) {
 		var row1 = Ti.UI.createTableViewRow({
-			title: themeNames[i],
-			color: Settings().theme().text,
+					  title: themeNames[i],
+			          color: Settings().theme().text,
 			backgroundColor: Settings().theme().bg
 		});
-		if (themeIndex == i) {
-			row1.setHasCheck(true);
-		} else {
-			row1.setHasCheck(false);
-		}
+		if (themeIndex == i) {row1.setHasCheck(true);} 
+		else {row1.setHasCheck(false);}
 		styledElements.push(row1);
 		themeSec.add(row1);
 	}
-
-	themeSec.addEventListener('click', function(e) {
-		themeSelected(e, view);
-	});
 	
 	
 	// BUILD TABLE
 	var table = Ti.UI.createTableView({
-		style: Ti.UI.iPhone.TableViewStyle.GROUPED,
-		font : {fontFamily: Settings().font()},
-		color: Settings().theme().text,
+				  style: Ti.UI.iPhone.TableViewStyle.GROUPED,
+		           font: {fontFamily: Settings().font()},
+		          color: Settings().theme().text,
 		backgroundColor: Settings().theme().bg2,
-		data : [fontSec, themeSec]
+		          data : [fontSec, themeSec]
 	});
+
+
+	self.add(table);
+	styledElements.push(self);
 	
+	
+	/**
+	 * CONTROLLER
+	 */
+	fontSec.addEventListener('click', function(e) {
+		var fontID = e.index;
+		if (fontID != Settings().fontIndex()) {
+			Ti.API.log('newFont: ' + fontNames[fontID]);
+			Settings().setFont(fontID);
+			fontIndex = Settings().fontIndex();
+			updateView(view);
+		}
+	});
+	themeSec.addEventListener('click', function(e) {
+		var themeID = e.index - fontNames.length;
+		if (Settings().themeIndex() != themeID) {
+			Ti.API.log('newTheme: ' + themeNames[themeID]);
+			Settings().setTheme(themeID);
+			themeIndex = Settings().themeIndex();
+			updateView(view);
+		}
+	});
+
+
 	// RETURN
-	return table;
-}
-
-function fontSelected(e, view) {
-	var fontID = e.index;
-	if (fontID != Settings().fontIndex()) {
-		Ti.API.log('newFont: ' + fontNames[fontID]);
-		Settings().setFont(fontID);
-		fontIndex  = Settings().fontIndex();
-		updateView(view);
-	}
-}
-
-function themeSelected(e, view) {
-	var themeID = e.index - fontNames.length;
-	if (Settings().themeIndex() != themeID) {
-		Ti.API.log('newTheme: ' + themeNames[themeID]);
-		Settings().setTheme(themeID);
-		themeIndex = Settings().themeIndex();
-		updateView(view);
-	}
+	return self;
 }
 
 function updateView(view) {
@@ -118,13 +99,6 @@ function updateView(view) {
 	view.remove(settingsTable);
 	settingsTable = buildTable(view);
 	view.add(settingsTable);
-	// for (var view in styledElements) {
-		// //Ti.API.log('updateView()' + JSON.stringify(styledElements[view],null,4));
-		// styledElements[view].font = {fontFamily: Settings().font()};
-		// styledElements[view].color = Settings().theme().text;
-		// styledElements[view].backgroundColor = Settings().theme().bg2;
-		// styledElements[view].barColor = Settings().theme().bg;
-	// }
 	if (themeNames[themeIndex] != 'Invert') {
 		// Status bar black with white writing
 		Ti.API.log('Status Bar Changed to: OPAQUE_BLACK');
