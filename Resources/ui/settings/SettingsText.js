@@ -95,18 +95,22 @@ function buildTable(view) {
 
 function fontSelected(e, view) {
 	var fontID = e.index;
-	Ti.API.log('newFont: ' + fontNames[fontID]);
-	Settings().setFont(fontID);
-	fontIndex  = Settings().fontIndex();
-	updateView(view);
+	if (fontID != Settings().fontIndex()) {
+		Ti.API.log('newFont: ' + fontNames[fontID]);
+		Settings().setFont(fontID);
+		fontIndex  = Settings().fontIndex();
+		updateView(view);
+	}
 }
 
 function themeSelected(e, view) {
 	var themeID = e.index - fontNames.length;
-	Ti.API.log('newTheme: ' + themeNames[themeID]);
-	Settings().setTheme(themeID);	
-	themeIndex = Settings().themeIndex();
-	updateView(view);
+	if (Settings().themeIndex() != themeID) {
+		Ti.API.log('newTheme: ' + themeNames[themeID]);
+		Settings().setTheme(themeID);
+		themeIndex = Settings().themeIndex();
+		updateView(view);
+	}
 }
 
 function updateView(view) {
