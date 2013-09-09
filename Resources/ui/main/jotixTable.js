@@ -1,5 +1,7 @@
 var navBarButtons = require("ui/main/mainButtons");
 
+var LABEL_PADDING = 15;
+	
 function newList(_args){
 	Ti.API.log("new JotixList()");
 	
@@ -14,8 +16,6 @@ function newList(_args){
 	var data = Ti.UI.createTableViewSection({
 		headerTitle: parentId
 	});	
-	
-	var LABEL_PADDING = 15;
 	
 	var THEME_GB          = Settings().theme().bg,
 		THEME_GB2         = Settings().theme().bg2,
@@ -53,15 +53,6 @@ function newList(_args){
 		showCancel: false,
 		  hintText: 'search'
 	});
-	search.addEventListener('change', function(e){
-		e.value; // search string as user types
-	});
-	search.addEventListener('return', function(e){
-		search.blur();
-	});
-	search.addEventListener('cancel', function(e){
-		search.blur();
-	});
 	
 	// CREATE TABLE
 	var table = Ti.UI.createTableView({
@@ -70,26 +61,22 @@ function newList(_args){
 		searchHidden: true,
 		    editable: true
 	});
-	table.addEventListener('click', function(e) {
-		hideToolbar();
-		showNotes(e);
-	});
 	
 	// EDIT MODE
 	var edit1 = Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.EDIT});
 	var edit2 = Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.DONE});
-	edit1.addEventListener('click', function(e){
-		self.setToolbar(navBarButtons());
-		self.rightNavButton = edit2;
-	});
-	edit2.addEventListener('click', function(e){
-		hideToolbar();
-	});
 	
-	function hideToolbar() {
-		self.setToolbar(null,{animated:true});
-		self.rightNavButton = edit1;
-	}
+	// CREATE VIEW
+	var self = Titanium.UI.createWindow({ 
+		 rightNavButton: edit1,
+		           font: {fontFamily: THEME_FONT_FAMILY},
+		          color: THEME_FONT_COLOR,
+		backgroundColor: THEME_GB2,
+	           barColor: THEME_GB,
+	       tabBarHidden: true
+	});
+	styledElements.other.push(self);
+	self.add(table);
 	
 	// UPDATE VIEW
 	function updateView() {
@@ -116,30 +103,47 @@ function newList(_args){
 		}		
 	}
 	
-	// CREATE VIEW
-	var self = Titanium.UI.createWindow({ 
-		 rightNavButton: edit1,
-		           font: {fontFamily: THEME_FONT_FAMILY},
-		          color: THEME_FONT_COLOR,
-		backgroundColor: THEME_GB2,
-	           barColor: THEME_GB,
-	       tabBarHidden: true
+	
+	/**
+	 * CONTROLLER
+	 */
+	// SEARCH
+	search.addEventListener('change', function(e){
+		e.value; // search string as user types
 	});
-	styledElements.other.push(self);
-	self.add(table);
+	search.addEventListener('return', function(e){
+		search.blur();
+	});
+	search.addEventListener('cancel', function(e){
+		search.blur();
+	});
+	// TABLE
+	table.addEventListener('click', function(e) {
+		hideToolbar();
+		// SHOW NOTES 
+		Ti.API.log("parentId:" + e.rowData.thisId);
+		navGroup.open(newList({
+			navGroup: navGroup, 
+			parentId: e.rowData.thisId
+		}).win);
+	});
+	// EDIT MODE
+	edit1.addEventListener('click', function(e){
+		self.setToolbar(navBarButtons());
+		self.rightNavButton = edit2;
+	});
+	edit2.addEventListener('click', function(e){
+		hideToolbar();
+	});
+	function hideToolbar() {
+		self.setToolbar(null,{animated:true});
+		self.rightNavButton = edit1;
+	}
+
 	
 	// RETURN VIEW
 	// updateView();
 	return {win: self, updateView: updateView};
-}
-
-function showNotes(e) {
-	// Ti.API.log("showNotes(" + JSON.stringify(e,null,4) + ")");
-	// i'm guessing.. 
-	var navGroup = e.rowData.navGroup;
-	var parentId = e.rowData.thisId;
-	Ti.API.log("parentId:" + parentId);
-	navGroup.open(newList({navGroup: navGroup, parentId: parentId}).win);
 }
 
 module.exports = newList;
