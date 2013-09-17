@@ -10,7 +10,7 @@ var _themes = [
 			sym  : "#2793FF",	// Blue
 			bg   : "#FFF",		// White
 			bg2  : "#F8F8F7",	// Off-white (section header)
-			bg3  : "#EFEFF4"	// Grey (search)
+			bg3  : "#EFEFF4"		// Grey (search)
 		},
 		{
 			title: "Invert",
@@ -19,7 +19,7 @@ var _themes = [
 			sym  : "#FC6E21",	// Orange
 			bg   : "#000",		// Black
 			bg2  : "#10100A",	// Off-black
-			bg3  : "#363631"	// Dark Grey
+			bg3  : "#363631"		// Dark Grey
 		},
 		{
 			title: "Sepia",
@@ -28,7 +28,7 @@ var _themes = [
 			sym  : "#5E3D22",	// Same brown
 			bg   : "#F6F4EF",	// Table bg (lightest)
 			bg2  : "#E7E1D5",	// darker sepia
-			bg3  : "#F5EFDC"	// other sepia
+			bg3  : "#F5EFDC"		// other sepia
 		}
 	],
 	_themeNames = [];

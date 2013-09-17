@@ -1,4 +1,8 @@
-var navBarButtons = require("ui/main/mainButtons");
+/**
+ * @author Robert Chatfield, Josh Newman
+ * Jotix Notes main window
+ * View & Controller
+ */
 
 var LABEL_PADDING = 15;
 	
@@ -46,29 +50,20 @@ function newList(_args){
 		row.add(label);
 		data.add(row);
 	}
-	
-	// CREATE SEARCH
-	var search = Titanium.UI.createSearchBar({
-		  barColor: THEME_SEARCH_COLOR,
-		showCancel: false,
-		  hintText: 'search'
-	});
-	
+		
 	// CREATE TABLE
 	var table = Ti.UI.createTableView({
 		        data: [data],
-		      search: search,
-		searchHidden: true,
 		    editable: true
 	});
 	
-	// EDIT MODE
-	var edit1 = Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.EDIT});
-	var edit2 = Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.DONE});
+	// ADD
+	var addButton = Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.ADD});
 	
 	// CREATE VIEW
 	var self = Titanium.UI.createWindow({ 
-		 rightNavButton: edit1,
+		 rightNavButton: addButton,
+		        toolbar: navBarButtons,
 		           font: {fontFamily: THEME_FONT_FAMILY},
 		          color: THEME_FONT_COLOR,
 		backgroundColor: THEME_GB2,
@@ -107,19 +102,8 @@ function newList(_args){
 	/**
 	 * CONTROLLER
 	 */
-	// SEARCH
-	search.addEventListener('change', function(e){
-		e.value; // search string as user types
-	});
-	search.addEventListener('return', function(e){
-		search.blur();
-	});
-	search.addEventListener('cancel', function(e){
-		search.blur();
-	});
 	// TABLE
 	table.addEventListener('click', function(e) {
-		hideToolbar();
 		// SHOW NOTES 
 		Ti.API.log("parentId:" + e.rowData.thisId);
 		navGroup.open(newList({
@@ -127,18 +111,6 @@ function newList(_args){
 			parentId: e.rowData.thisId
 		}).win);
 	});
-	// EDIT MODE
-	edit1.addEventListener('click', function(e){
-		self.setToolbar(navBarButtons());
-		self.rightNavButton = edit2;
-	});
-	edit2.addEventListener('click', function(e){
-		hideToolbar();
-	});
-	function hideToolbar() {
-		self.setToolbar(null,{animated:true});
-		self.rightNavButton = edit1;
-	}
 
 	
 	// RETURN VIEW
