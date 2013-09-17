@@ -20,27 +20,27 @@
  * SETTINGS INCLUDES
  */
 var Settings = require('model/settings');
-Ti.include("ui/settings/settingsMainView.js");
-Ti.include("ui/settings/settingsMainController.js");
-Ti.include("ui/settings/settingsSoundView.js");
-Ti.include("ui/settings/settingsSoundController.js");
-Ti.include("ui/settings/settingsTextView.js");
-Ti.include("ui/settings/settingsTextController.js");
-Ti.include("ui/settings/settingsWebView.js");
-Ti.include("ui/settings/settingsWebController.js");
+Ti.include('/settings/settingsMainView.js');
+Ti.include('/settings/settingsMainController.js');
+Ti.include('/settings/settingsSoundView.js');
+Ti.include('/settings/settingsSoundController.js');
+Ti.include('/settings/settingsTextView.js');
+Ti.include('/settings/settingsTextController.js');
+Ti.include('/settings/settingsWebView.js');
+Ti.include('/settings/settingsWebController.js');
 
 /**
  * JOTIX INCLUDES
  */
-Ti.include("ui/main/mainButtonsView.js");
-Ti.include("ui/main/mainButtonsController.js");
-Ti.include("ui/main/searchView.js");
-Ti.include("ui/main/searchController.js");
+Ti.include('/main/mainButtonsView.js');
+Ti.include('/main/mainButtonsController.js');
+Ti.include('/main/searchView.js');
+Ti.include('/main/searchController.js');
 
 /**
  * JOTIX MAIN
  */
-var JotixTable = require('ui/main/jotixTable');
+var JotixTable = require('main/jotixTable');
 var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({top: 20});
 var initTable = JotixTable({navGroup: mainNavGroup, parentId: "pID"});
 mainNavGroup.window = initTable.win;
