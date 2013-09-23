@@ -6,6 +6,7 @@
 
 searchButton.addEventListener('click', function() {
 	searchView.open({modal: true});
+	generateSearchableTable();
 });
 
 actionButton.addEventListener('click', function() {
