@@ -19,7 +19,7 @@
 /**
  * SETTINGS INCLUDES
  */
-var Settings = require('model/settings');
+Ti.include('/model/settings.js');
 Ti.include('/settings/settingsMainView.js');
 Ti.include('/settings/settingsMainController.js');
 Ti.include('/settings/settingsSoundView.js');
@@ -46,9 +46,10 @@ var initTable = JotixTable({navGroup: mainNavGroup, parentId: "pID"});
 mainNavGroup.window = initTable.win;
 mainNavGroup.window.setLeftNavButton(showSettingsButton);	// included from mainButtonsView
 var mainContainer = Titanium.UI.createWindow({
-	tabBarHidden: true,
-	navBarHidden: true,
-	         top: 0	
+		tabBarHidden: true,
+		navBarHidden: true,
+		         top: 0,
+	orientationModes: orientations
 });
 mainContainer.add(mainNavGroup);
 
@@ -56,9 +57,9 @@ function updateViewMain() {
 	Ti.API.log('Main.updateView()');
 	initTable.updateView();
 	// mainContainer.font = {fontFamily: Settings().font()};
-	mainContainer.color = Settings().theme().text;
-	mainContainer.backgroundColor = Settings().theme().bg;
-	mainContainer.barColor = Settings().theme().bg;
+	mainContainer.color = Settings.theme().text;
+	mainContainer.backgroundColor = Settings.theme().bg;
+	mainContainer.barColor = Settings.theme().bg;
 }
 
 updateViewMain();

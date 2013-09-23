@@ -7,19 +7,19 @@
 function settingsTextTableAddListeners(view){
 	fontSec.addEventListener('click', function(e) {
 		var fontID = e.index;
-		if (fontID != Settings().fontIndex()) {
+		if (Settings.fontIndex() != fontID) {
 			Ti.API.log('newFont: ' + fontNames[fontID]);
-			Settings().setFont(fontID);
-			fontIndex = Settings().fontIndex();
+			Settings.setFont(fontID);
+			fontIndex = Settings.fontIndex();
 			updateViewSettingsText();
 		}
 	});
 	themeSec.addEventListener('click', function(e) {
 		var themeID = e.index - fontNames.length;
-		if (Settings().themeIndex() != themeID) {
+		if (Settings.themeIndex() != themeID) {
 			Ti.API.log('newTheme: ' + themeNames[themeID]);
-			Settings().setTheme(themeID);
-			themeIndex = Settings().themeIndex();
+			Settings.setTheme(themeID);
+			themeIndex = Settings.themeIndex();
 			updateViewSettingsText();
 		}
 	});

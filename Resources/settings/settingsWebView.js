@@ -6,9 +6,9 @@
 
 var settingsWebWin = Ti.UI.createWindow({
 	          title: "Web",
-	          color: Settings().theme().text,
-	backgroundColor: Settings().theme().bg2,
-    	   barColor: Settings().theme().bg,
+	          color: Settings.theme().text,
+	backgroundColor: Settings.theme().bg2,
+    	   barColor: Settings.theme().bg,
 	   tabBarHidden: true
 });
 

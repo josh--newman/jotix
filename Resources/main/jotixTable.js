@@ -21,11 +21,11 @@ function newList(_args){
 		headerTitle: parentId
 	});	
 	
-	var THEME_GB          = Settings().theme().bg,
-		THEME_GB2         = Settings().theme().bg2,
-		THEME_FONT_FAMILY = Settings().font(),
-		THEME_FONT_COLOR  = Settings().theme().text,
-		THEME_SEARCH_COLOR= Settings().theme().bg2;
+	var THEME_GB          = Settings.theme().bg,
+		THEME_GB2         = Settings.theme().bg2,
+		THEME_FONT_FAMILY = Settings.font(),
+		THEME_FONT_COLOR  = Settings.theme().text,
+		THEME_SEARCH_COLOR= Settings.theme().bg2;
 	
 	for (var i = 0; i < count; i++) {
 		thisId = (nextId + i);
@@ -103,11 +103,11 @@ function newList(_args){
 	function updateView() {
 		Ti.API.log('JotixNotes.updateView()');
 		
-		THEME_GB          = Settings().theme().bg,
-		THEME_GB2         = Settings().theme().bg2,
-		THEME_FONT_FAMILY = Settings().font(),
-		THEME_FONT_COLOR  = Settings().theme().text,
-		THEME_SEARCH_COLOR= Settings().theme().bg2;
+		THEME_GB          = Settings.theme().bg,
+		THEME_GB2         = Settings.theme().bg2,
+		THEME_FONT_FAMILY = Settings.font(),
+		THEME_FONT_COLOR  = Settings.theme().text,
+		THEME_SEARCH_COLOR= Settings.theme().bg2;
 		
 		for (var row in styledElements.rows) {
 			styledElements.rows[row].backgroundColor = THEME_GB;

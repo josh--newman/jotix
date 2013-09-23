@@ -10,7 +10,7 @@ var _themes = [
 			sym  : "#2793FF",	// Blue
 			bg   : "#FFF",		// White
 			bg2  : "#F8F8F7",	// Off-white (section header)
-			bg3  : "#EFEFF4"		// Grey (search)
+			bg3  : "#EFEFF4"	// Grey (search)
 		},
 		{
 			title: "Invert",
@@ -19,7 +19,7 @@ var _themes = [
 			sym  : "#FC6E21",	// Orange
 			bg   : "#000",		// Black
 			bg2  : "#10100A",	// Off-black
-			bg3  : "#363631"		// Dark Grey
+			bg3  : "#363631"	// Dark Grey
 		},
 		{
 			title: "Sepia",
@@ -28,7 +28,7 @@ var _themes = [
 			sym  : "#5E3D22",	// Same brown
 			bg   : "#F6F4EF",	// Table bg (lightest)
 			bg2  : "#E7E1D5",	// darker sepia
-			bg3  : "#F5EFDC"		// other sepia
+			bg3  : "#F5EFDC" 	// other sepia
 		}
 	],
 	_themeNames = [];
@@ -48,78 +48,68 @@ var _fonts=[
 var VOL_MAX = 100,
 	VOL_MIN = 0;
 
+var orientations = [Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT];
+
 /**
  * SETTER/GETTER Functions
  */
 
-function SettingsData(_args) {
-	
+var Settings = {
 	// THEMES
-	function setTheme(theme) {
-		Ti.API.log("Old Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
-		if (theme < _themes.length && theme >= 0) {
-			Titanium.App.Properties.setInt("theme", theme);
-		}
-		Ti.API.log("New Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
-	}
-	function theme() {
-		return _themes[Titanium.App.Properties.getInt("theme", 0)];
-	}
-	function themeIndex() {
-		return Titanium.App.Properties.getInt("theme", 0);
-	}
-	function themeNames() {
-		return _themeNames;
-	}
-
+		  setTheme: function(theme) {
+						Ti.API.log("Old Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
+						if (theme < _themes.length && theme >= 0) {
+							Titanium.App.Properties.setInt("theme", theme);
+						}
+						Ti.API.log("New Theme: " + _themeNames[Titanium.App.Properties.getInt("theme", 0)]);
+					},
+		     theme: function() {
+						return _themes[Titanium.App.Properties.getInt("theme", 0)];
+					},
+		themeIndex: function() {
+						return Titanium.App.Properties.getInt("theme", 0);
+					},
+		themeNames: function() {
+						return _themeNames;
+					},
 	// FONTS
-	function setFont(font) {
-		if (font < _fonts.length && font >= 0) {
-			Titanium.App.Properties.setInt("font", font);
-		}
-	}
-	function font() {
-		return _fonts[Titanium.App.Properties.getInt("font", 4)];
-	}
-	function fontIndex() {
-		return Titanium.App.Properties.getInt("font", 4);
-	}
-	function fontNames() {
-		return _fonts;
-	}
-	
-	// SOUND
-	function setSound(toggle) {
-		Titanium.App.Properties.setBool("sound", toggle);
-	}
-	function sound() {
-		return Titanium.App.Properties.getBool("sound", true);		
-	}
-	function setVolume(vol) {
-		if (vol <= VOL_MAX && vol >= VOL_MIN) {
-			Titanium.App.Properties.setInt("volume", Math.round(vol));
-		}
-	}
-	function volume() {
-		return Titanium.App.Properties.getInt("volume", 50);
-	}
-	
-	return {
-		  setTheme: setTheme,
-		     theme: theme,
-		themeIndex: themeIndex,
-		themeNames: themeNames,
-
-		   setFont: setFont,
-		      font: font,
-		 fontIndex: fontIndex,
-		 fontNames: fontNames,
+		   setFont: function(font) {
+						if (font < _fonts.length && font >= 0) {
+							Titanium.App.Properties.setInt("font", font);
+						}
+					},
+		      font: function() {
+						return _fonts[Titanium.App.Properties.getInt("font", 4)];
+					},
+		 fontIndex: function() {
+						return Titanium.App.Properties.getInt("font", 4);
+					},
+		 fontNames: function() {
+						return _fonts;
+					},
 		 
-		  setSound: setSound,
-		     sound: sound,
-		 setVolume: setVolume,
-		    volume: volume
-	};
-}
-
-module.exports = SettingsData;
+	// SOUND
+		  setSound: function(toggle) {
+						Titanium.App.Properties.setBool("sound", toggle);
+					},
+		     sound: function() {
+						return Titanium.App.Properties.getBool("sound", true);		
+					},
+		 setVolume: function(vol) {
+						if (vol <= VOL_MAX && vol >= VOL_MIN) {
+							Titanium.App.Properties.setInt("volume", Math.round(vol));
+						}
+					},
+		    volume: function() {
+						return Titanium.App.Properties.getInt("volume", 50);
+					},
+	
+	// APP STATE
+	     currentID: function(parentID) {
+				     	Ti.App.Properties.setInt("currentID", parentID);
+				     },
+	  setCurrentID: function() {
+						return _currentID; 
+					}
+					
+};

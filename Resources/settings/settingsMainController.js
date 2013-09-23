@@ -37,19 +37,19 @@ settingsRowWeb.addEventListener('click',   function(e) {
 function updateViewSettings() {
 	Ti.API.log('SettingsMain.updateView()');
 	// settingsContainer
-	settingsContainer.color = Settings().theme().text;
-	settingsContainer.backgroundColor = Settings().theme().bg;
+	settingsContainer.color = Settings.theme().text;
+	settingsContainer.backgroundColor = Settings.theme().bg;
 	// settingsMain
-	settingsMain.color = Settings().theme().text;
-	settingsMain.backgroundColor = Settings().theme().bg2;
-    settingsMain.barColor = Settings().theme().bg;
+	settingsMain.color = Settings.theme().text;
+	settingsMain.backgroundColor = Settings.theme().bg2;
+    settingsMain.barColor = Settings.theme().bg;
     // settingsTable
-	settingsTable.color = Settings().theme().text;
-	settingsTable.backgroundColor = Settings().theme().bg2;
+	settingsTable.color = Settings.theme().text;
+	settingsTable.backgroundColor = Settings.theme().bg2;
 	// settingRows []
 	for (var row in settingMainRows) {
-		settingMainRows[row].color = Settings().theme().text;
-		settingMainRows[row].backgroundColor = Settings().theme().bg;
+		settingMainRows[row].color = Settings.theme().text;
+		settingMainRows[row].backgroundColor = Settings.theme().bg;
 	}
 	needsUpdate = true;
 }

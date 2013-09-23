@@ -4,16 +4,16 @@
  * View
  */
 
-var fontIndex  = Settings().fontIndex(),
-	fontNames  = Settings().fontNames(),
-	themeIndex = Settings().themeIndex(),
-	themeNames = Settings().themeNames();
+var fontIndex  = Settings.fontIndex(),
+	fontNames  = Settings.fontNames(),
+	themeIndex = Settings.themeIndex(),
+	themeNames = Settings.themeNames();
 
 var settingsTextWin = Ti.UI.createWindow({
 	          title: "Text",
-	          color: Settings().theme().text,
-	backgroundColor: Settings().theme().bg2,
-           barColor: Settings().theme().bg,
+	          color: Settings.theme().text,
+	backgroundColor: Settings.theme().bg2,
+           barColor: Settings.theme().bg,
 	   tabBarHidden: true
 });
 
@@ -30,8 +30,8 @@ function buildTextTable() {
 		var row1 = Ti.UI.createTableViewRow({
 					  title: fontNames[i],
 					   font: {fontFamily: fontNames[i]},
-					  color: Settings().theme().text,
-			backgroundColor: Settings().theme().bg
+					  color: Settings.theme().text,
+			backgroundColor: Settings.theme().bg
 		});
 		if (fontIndex == i) {
 			row1.setHasCheck(true);
@@ -49,8 +49,8 @@ function buildTextTable() {
 	for (var i = 0; i<themeNames.length; i++) {
 		var row1 = Ti.UI.createTableViewRow({
 					  title: themeNames[i],
-			          color: Settings().theme().text,
-			backgroundColor: Settings().theme().bg
+			          color: Settings.theme().text,
+			backgroundColor: Settings.theme().bg
 		});
 		if (themeIndex == i) {row1.setHasCheck(true);} 
 		else {row1.setHasCheck(false);}
@@ -62,9 +62,9 @@ function buildTextTable() {
 	// BUILD TABLE
 	table = Ti.UI.createTableView({
 				  style: Ti.UI.iPhone.TableViewStyle.GROUPED,
-		           font: {fontFamily: Settings().font()},
-		          color: Settings().theme().text,
-		backgroundColor: Settings().theme().bg2,
+		           font: {fontFamily: Settings.font()},
+		          color: Settings.theme().text,
+		backgroundColor: Settings.theme().bg2,
 		          data : [fontSec, themeSec]
 	});
 	
