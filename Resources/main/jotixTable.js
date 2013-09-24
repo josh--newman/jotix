@@ -38,13 +38,15 @@ function newList(_args){
 		});
 		styledElements.rows.push(row);
 		var textInput = Ti.UI.createTextArea({
-			 value: thisId + " and this is the best app!",
-			  font: {fontFamily: THEME_FONT_FAMILY},
-			 color: THEME_FONT_COLOR,
-			height: Ti.UI.SIZE,
-			  left: LABEL_PADDING,
-			   top: LABEL_PADDING,
-			bottom: LABEL_PADDING	
+					 value: thisId + " and this is the best app!",
+					  font: {fontFamily: THEME_FONT_FAMILY},
+					 color: THEME_FONT_COLOR,
+		   backgroundColor: "none",
+					height: Ti.UI.SIZE,
+					   top: LABEL_PADDING / 3,
+					bottom: LABEL_PADDING / 3,
+					  left: LABEL_PADDING,
+					 right: LABEL_PADDING
 		});
 		// var label = Ti.UI.createLabel({
 			  // text: thisId + " and this is the best app!",
