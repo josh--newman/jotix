@@ -4,6 +4,10 @@
  * View
  */
 
+var platformWidth = Ti.Platform.displayCaps.platformWidth;
+var platformHeight = Ti.Platform.displayCaps.platformHeight;
+
+
 // BOTTON TO SHOW SETTINGS
 var showSettingsButton = Ti.UI.createButton({title: "Settings"});
 
@@ -56,6 +60,20 @@ var settingsTable = Ti.UI.createTableView({
 });
 settingsMain.add(settingsTable);
 
+/**
+ * ADD GRAPHIC
+ */
+
+var logo = Ti.UI.createView({
+	backgroundImage: 'images/settings_logo.png',
+	center: {
+		x: platformWidth / 2
+	},
+	bottom: 50,
+	width: 100,
+	height: 44
+});
+settingsMain.add(logo);
 
 /**
  * BUILD WINDOWS + NAV>WINDOW

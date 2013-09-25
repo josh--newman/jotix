@@ -12,8 +12,10 @@ var settingsWebWin = Ti.UI.createWindow({
 	   tabBarHidden: true
 });
 
+var defaultURL = 'http://www.apple.com';
+
 var settingsWebview = Ti.UI.createWebView({
-	url: 'http://www.apple.com'
+	url: defaultURL
 });
 settingsWebWin.add(settingsWebview);
 

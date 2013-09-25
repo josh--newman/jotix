@@ -10,7 +10,7 @@ settingsSoundToggle.addEventListener('change', function(e){
 	} else {
 		settingsSoundTable.appendRow(settingsSoundRowVolume, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.TOP});
 	}
-	Settings().setSound(e.value);
+	Settings.setSound(e.value);
 });
 // volumeSlider.addEventListener('change', function(e){
 	// Ti.API.log('volume: ' + Math.round(e.value));

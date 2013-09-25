@@ -32,31 +32,31 @@ Ti.include('/settings/settingsWebController.js');
 /**
  * JOTIX INCLUDES
  */
+Ti.include('/model/notes.js');
 Ti.include('/main/mainButtonsView.js');
 Ti.include('/main/mainButtonsController.js');
 Ti.include('/main/searchView.js');
 Ti.include('/main/searchController.js');
+var newList = require('main/notesViewController');
 
 /**
  * JOTIX MAIN
  */
-var JotixTable = require('main/jotixTable');
 var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({top: 20});
-var initTable = JotixTable({navGroup: mainNavGroup, parentId: "pID"});
+var initTable = newList();
 mainNavGroup.window = initTable.win;
 mainNavGroup.window.setLeftNavButton(showSettingsButton);	// included from mainButtonsView
 var mainContainer = Titanium.UI.createWindow({
 		tabBarHidden: true,
 		navBarHidden: true,
 		         top: 0,
-	orientationModes: orientations
+	orientationModes: ORIENTATIONS	// included from /model/settings.js
 });
 mainContainer.add(mainNavGroup);
 
 function updateViewMain() {
 	Ti.API.log('Main.updateView()');
 	initTable.updateView();
-	// mainContainer.font = {fontFamily: Settings().font()};
 	mainContainer.color = Settings.theme().text;
 	mainContainer.backgroundColor = Settings.theme().bg;
 	mainContainer.barColor = Settings.theme().bg;
@@ -65,5 +65,5 @@ function updateViewMain() {
 updateViewMain();
 
 mainContainer.add(mainNavGroup);
-mainContainer.open();
+mainContainer.open({modal: true});
 

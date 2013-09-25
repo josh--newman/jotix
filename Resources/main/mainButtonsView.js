@@ -4,13 +4,12 @@
  * View
  */
 
-var doneButton 		= Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.DONE});
 var actionButton	= Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.ACTION});
 var sortButton 		= Ti.UI.createButton({
-										    title :'Sort',
+										    title : 'Sort',
 										    right : 50,
 										    width : 50,
-										    height : 30
+										    height: 30
 										});
 var searchButton	= Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.SEARCH});
 var flexButton		= Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE});

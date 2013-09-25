@@ -48,8 +48,6 @@ var _fonts=[
 var VOL_MAX = 100,
 	VOL_MIN = 0;
 
-var orientations = [Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT];
-
 /**
  * SETTER/GETTER Functions
  */
@@ -102,14 +100,5 @@ var Settings = {
 					},
 		    volume: function() {
 						return Titanium.App.Properties.getInt("volume", 50);
-					},
-	
-	// APP STATE
-	     currentID: function(parentID) {
-				     	Ti.App.Properties.setInt("currentID", parentID);
-				     },
-	  setCurrentID: function() {
-						return _currentID; 
 					}
-					
 };
