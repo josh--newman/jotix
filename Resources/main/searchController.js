@@ -5,6 +5,7 @@
  */
 
 searchDoneButton.addEventListener('click', function(e){
+	table.data = [createTableData()];
 	searchView.close();
 });
 

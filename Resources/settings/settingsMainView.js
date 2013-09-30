@@ -42,11 +42,11 @@ var settingsRowSound = Ti.UI.createTableViewRow({
 });
 settingMainRows.push(settingsRowSound);
 
-var settingsRowText = Ti.UI.createTableViewRow({
-	   title: "Text",
-	hasChild: true
-});
-settingMainRows.push(settingsRowText);
+// var settingsRowText = Ti.UI.createTableViewRow({
+	   // title: "Text",
+	// hasChild: true
+// });
+// settingMainRows.push(settingsRowText);
 
 var settingsRowWeb = Ti.UI.createTableViewRow({
 	   title: "Developer",

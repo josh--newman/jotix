@@ -23,9 +23,9 @@ settingsDoneButton.addEventListener('click', function() {
 settingsRowSound.addEventListener('click', function(e) {
 	settingsNavGroup.open(settingsSoundWin);
 });
-settingsRowText.addEventListener('click',  function(e) {
-	settingsNavGroup.open(settingsTextWin);
-});
+// settingsRowText.addEventListener('click',  function(e) {
+	// settingsNavGroup.open(settingsTextWin);
+// });
 settingsRowWeb.addEventListener('click',   function(e) {
 	settingsWebview.url = defaultURL;
 	settingsNavGroup.open(settingsWebWin);

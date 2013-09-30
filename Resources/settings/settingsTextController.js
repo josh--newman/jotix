@@ -31,16 +31,6 @@ function updateViewSettingsText(view) {
 	settingsTextTable = buildTextTable();
 	settingsTextTableAddListeners();
 	settingsTextWin.add(settingsTextTable);
-	if (themeNames[themeIndex] != 'Invert') {
-		// Status bar black with white writing
-		Ti.API.log('Status Bar Changed to: OPAQUE_BLACK');
-		Titanium.UI.iPhone.statusBarStyle = Titanium.UI.iPhone.StatusBar.OPAQUE_BLACK;
-	} else {
-		// Status bar white with black writing
-		Ti.API.log('Status Bar Changed to: DEFAULT');
-		Titanium.UI.iPhone.statusBarStyle = Titanium.UI.iPhone.StatusBar.DEFAULT;
-	}
-	// settingsUpdateView();
 	updateViewSettings();
 }
 

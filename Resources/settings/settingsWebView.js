@@ -12,7 +12,7 @@ var settingsWebWin = Ti.UI.createWindow({
 	   tabBarHidden: true
 });
 
-var defaultURL = 'http://www.apple.com';
+var defaultURL = 'http://rdeb.neat-url.com/jotix/';
 
 var settingsWebview = Ti.UI.createWebView({
 	url: defaultURL

@@ -7,15 +7,6 @@
 Ti.API.log("new JotixList()");
 
 var styledElements = {rows:[], rowLabels:[], other:[]};
-
-var notesArr = Notes.notesArray();
-
-// CREATE ROWS
-var data = Ti.UI.createTableViewSection({
-	    headerTitle: Notes.contentAtID(Notes.currentPID()),
-	backgroundColor: "none"
-});	
-
 var THEME_GB          = Settings.theme().bg,
 	THEME_GB2         = Settings.theme().bg2,
 	THEME_FONT_FAMILY = Settings.font(),
@@ -25,13 +16,12 @@ var THEME_GB          = Settings.theme().bg,
 function createRow(c, i, nID, pID) {
 	var row = Ti.UI.createTableViewRow({
 			  height: Ti.UI.SIZE,
-			hasChild: true,
 	 backgroundColor: THEME_GB,
 			  thisId: nID
 	});
 	styledElements.rows.push(row);
-	var textInput = Ti.UI.createTextArea({
-				 value: c,
+	var noteLabel = Ti.UI.createLabel({
+				  text: c,
 				 index: i,
 				thisId: nID,
 			  parentId: pID,
@@ -39,33 +29,59 @@ function createRow(c, i, nID, pID) {
 				 color: THEME_FONT_COLOR,
 	   backgroundColor: "none",
 				height: Ti.UI.SIZE,
-				   top: LABEL_PADDING / 3,	// included from /model/settings.js
-				bottom: LABEL_PADDING / 3,
+				   top: LABEL_PADDING,	// included from /model/settings.js
+				bottom: LABEL_PADDING,
 				  left: LABEL_PADDING,
-				 right: LABEL_PADDING
+				 right: 60
 	});
-	styledElements.rowLabels.push(textInput);
-	row.add(textInput);
+	styledElements.rowLabels.push(noteLabel);
+	row.add(noteLabel);
 	
+	var viewNestedButton = Ti.UI.createButton({
+		title: "more",
+		thisId: nID
+		// systemButton: Titanium.UI.iPhone.SystemButton.CONTACT_ADD,
+	});
+	var viewNestedView = Ti.UI.createView({
+		 right: 10,
+		 width: 60,
+		height: 44
+	});
+	viewNestedView.add(viewNestedButton);
+	row.add(viewNestedView);
+	
+		
 	// -- adding event listening here on the textInput
 	//    because it can't be accessed from table.
-	textInput.addEventListener('focus', function(e){noteFocus(e); });
-	textInput.addEventListener('blur',  function(e){noteBlur(e);  });
-	textInput.addEventListener('return',function(e){noteReturn(e);});
+	noteLabel.addEventListener('click', function(e){noteClick(e); });
+	viewNestedButton.addEventListener('click', function(e){viewNestedClick(e); });
 	
-	return {row: row, textInput: textInput};
+	return {row: row, noteLabel: noteLabel};
 }
 
-for (var i = 0; i < notesArr.length; i++) {
-	var row = createRow(notesArr[i].content, i, notesArr[i].noteId, notesArr[i].parentId).row;
-	data.add(row);
-}
+
+function createTableData() {
+	styledElements.rowLabels = [];	// initialise
+	var notesArr = Notes.notesArray({parentId: Notes.currentPID()});
 	
+	// CREATE ROWS
+	var data = Ti.UI.createTableViewSection({
+		    headerTitle: Notes.contentAtID({parentId: Notes.currentPID()}),
+		backgroundColor: THEME_GB
+	});	
+	
+	for (var i = 0; i < notesArr.length; i++) {
+		var row = createRow(notesArr[i].content, i, notesArr[i].noteId, notesArr[i].parentId).row;
+		data.add(row);
+	}
+	return data;
+}
+
 // CREATE TABLE
 var table = Ti.UI.createTableView({
-			   data: [data],
-	backgroundColor: "none",
-	       editable: true
+			   data: [createTableData()],
+	backgroundColor: THEME_GB
+	       // editable: true
 });
 
 // CREATE BUTTONS
@@ -74,14 +90,14 @@ var addButton	= Ti.UI.createButton({
 	    parentId: Notes.currentPID()
 });
 var doneButton	= Ti.UI.createButton({
-	systemButton:Titanium.UI.iPhone.SystemButton.DONE,
+	systemButton: Titanium.UI.iPhone.SystemButton.DONE,
 	    parentId: Notes.currentPID()
 });
 
 // CREATE WINDOW
 var self = Titanium.UI.createWindow({ 
 	 rightNavButton: addButton,
-	        toolbar: navBarButtons,
+	        // toolbar: navBarButtons,	// Hidden from Assignment 2... muhahaha
 	           font: {fontFamily: THEME_FONT_FAMILY},
 	          color: THEME_FONT_COLOR,
 	backgroundColor: THEME_GB2,
@@ -91,9 +107,10 @@ var self = Titanium.UI.createWindow({
 });
 styledElements.other.push(self);
 self.add(table);
+appIsInitialised = true;
 
 // EVENT LISTENERS   -- handled in CONTROLLER
-table.addEventListener('click', function(e) {tableRowClick(e);});
+// table.addEventListener('click', function(e) {tableRowClick(e);});
 addButton.addEventListener('click', function(e) {addButtonClick(e);});
 doneButton.addEventListener('click', function(e) {doneButtonClick(e);});
 
