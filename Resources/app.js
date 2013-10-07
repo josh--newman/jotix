@@ -29,6 +29,14 @@ Ti.include('/settings/settingsWebView.js');
 Ti.include('/settings/settingsWebController.js');
 
 /**
+ * TUTORIAL
+ */
+Ti.include('/tutorial/tutorialModel.js');
+Ti.include('/tutorial/tutorialView.js');
+Ti.include('/tutorial/tutorialController.js');
+
+
+/**
  * JOTIX INCLUDES
  */
 Ti.include('/model/notes.js');
@@ -51,7 +59,7 @@ Notes.setCurrentPID(-1); 	// root note
 var initTable = newList();
 mainNavGroup.window = initTable.win;
 mainNavGroup.window.setLeftNavButton(showSettingsButton);	// included from mainButtonsView
-var mainContainer = Titanium.UI.createWindow({
+var mainContainer = Ti.UI.createWindow({
 		tabBarHidden: true,
 		navBarHidden: true,
 		         top: 0,
@@ -79,17 +87,19 @@ function updateViewMain() {
 
 updateViewMain();
 
-mainContainer.add(mainNavGroup);
 mainContainer.open({modal: true});
 
+
 /**
- * TUTORIAL
+ * SHOW TUTORIAL
  */
-Ti.include('/tutorial/tutorialModel.js');
-Ti.include('/tutorial/tutorialView.js');
-Ti.include('/tutorial/tutorialController.js');
-
-
+Settings.setTutorialSeen({seen: false}); 
+Ti.API.log("Settings.tutorialSeen(): " + Settings.tutorialSeen());
+if (Settings.tutorialSeen() == false) {
+	setTimeout(function(){
+		carouselWindow.open({modal: true});
+	}, 700);
+}
 
 
 // LOAD PREVIOUS STATE  --  BREADCRUMBS SEQUENTIALLY

@@ -93,106 +93,106 @@ var Notes = {
 
 var defaultData = [
 	{
-		content: "Jotix Note App",
-		noteId: -1,
-		parentId: null,
-		order: 0,
+		    content: "Jotix Note App",
+		     noteId: -1,
+		   parentId: null,
+		      order: 0,
 		breadcrumbs: ""
 	},
 	{
-		content: "1612ICT",
-		noteId: 0,
-		parentId: -1,
-		order: 0,
+		    content: "1612ICT",
+		     noteId: 0,
+		   parentId: -1,
+		      order: 0,
 		breadcrumbs: "1612ICT"
 	},
 	{
-		content: "Lecturer",
-		noteId: 5,
-		parentId: 0,
-		order: 0,
+		    content: "Lecturer",
+		     noteId: 5,
+		   parentId: 0,
+		      order: 0,
 		breadcrumbs: "1612ICT>Lecturer"
 	},
 	{
-		content: "Jolon Faichney",
-		noteId: 0,
-		parentId: 5,
-		order: 0,
+		    content: "Jolon Faichney",
+		     noteId: 3,
+		   parentId: 5,
+		      order: 0,
 		breadcrumbs: "1612ICT>Lecturer>Jolon Faichney"
 	},
 	{
-		content: "(07) 555 28792",
-		noteId: 1,
-		parentId: 5,
-		order: 1,
+		    content: "(07) 555 28792",
+		     noteId: 1,
+		   parentId: 5,
+		      order: 1,
 		breadcrumbs: "1612ICT>Lecturer>(07) 555 28792"
 	},
 	{
-		content: "G09 1.58",
-		noteId: 2,
-		parentId: 5,
-		order: 2,
+		    content: "G09 1.58",
+		     noteId: 2,
+		   parentId: 5,
+		      order: 2,
 		breadcrumbs: "1612ICT>Lecturer>(07) 555 28792 "
 	},
 	{
-		content: "Design Principles",
-		noteId: 4,
-		parentId: 0,
-		order: 1,
+		    content: "Design Principles",
+		     noteId: 4,
+		   parentId: 0,
+		      order: 1,
 		breadcrumbs: "1612ICT>Design Principles"
 	},
 	{
-		content: "Simplicity",
-		noteId: 6,
-		parentId: 4,
-		order: 0,
+		    content: "Simplicity",
+		     noteId: 6,
+		   parentId: 4,
+		      order: 0,
 		breadcrumbs: "1612ICT>Design Principles>Simplicity"
 	},
 	{
-		content: "Consistency",
-		noteId: 7,
-		parentId: 4,
-		order: 1,
+		    content: "Consistency",
+		     noteId: 7,
+		   parentId: 4,
+		      order: 1,
 		breadcrumbs: "1612ICT>Design Principles>Consistency"
 	},
 	{
-		content: "Efficiency",
-		noteId: 8,
-		parentId: 4,
-		order: 2,
+		    content: "Efficiency",
+		     noteId: 8,
+		   parentId: 4,
+		      order: 2,
 		breadcrumbs: "1612ICT>Design Principles>Efficiency"
 	},
 	{
-		content: "Learnability",
-		noteId: 9,
-		parentId: 4,
-		order: 3,
+		    content: "Learnability",
+		     noteId: 9,
+		   parentId: 4,
+		      order: 3,
 		breadcrumbs: "1612ICT>Design Principles>Learnability"
 	},
 	{
-		content: "Satisfaction",
-		noteId: 10,
-		parentId: 4,
-		order: 4,
+		    content: "Satisfaction",
+		     noteId: 10,
+		   parentId: 4,
+		      order: 4,
 		breadcrumbs: "1612ICT>Design Principles>Satisfaction"
 	},
 	{
-		content: "1005ICT",
-		noteId: 11,
-		parentId: -1,
-		order: 1,
+		    content: "1005ICT",
+		     noteId: 11,
+		   parentId: -1,
+		      order: 1,
 		breadcrumbs: "1005ICT"
 	},
 	{
-		content: "2001ICT",
-		noteId: 12,
-		parentId: -1,
-		order: 2,
+		    content: "2001ICT",
+		     noteId: 12,
+		   parentId: -1,
+		      order: 2,
 		breadcrumbs: "2001ICT"
 	}
 ];
 
-// Ti.App.Properties.setObject("notesDatabase", defaultData);
+Ti.App.Properties.setObject("notesDatabase", defaultData);
 
 var notesFlatDatabase = Ti.App.Properties.getObject("notesDatabase", defaultData);
 

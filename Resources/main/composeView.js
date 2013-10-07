@@ -61,7 +61,15 @@ function composeView(_args) {
 		noteId: noteId,
 		textarea: ta
 	});
-	// var composeAddButton  = Ti.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.ADD});
+	var composeAddButton  = Ti.UI.createButton({
+		systemButton:Titanium.UI.iPhone.SystemButton.ADD, 
+		noteId: noteId,
+		textarea: ta
+	});
+	
+	// ta.keyboardToolbar = [composeDoneButton, flexButton, composeAddButton];
+	// ta.keyboardToolbarColor = '#999';
+    // ta.keyboardToolbarHeight = 44;
 	
 	// Add view to self
 	var contentWin = Ti.UI.createWindow({
@@ -76,7 +84,8 @@ function composeView(_args) {
 	// create self
 	var self = Ti.UI.createWindow({
 		top: 0,
-		leftNavButton: composeDoneButton
+		leftNavButton: composeDoneButton,
+		rightNavButton: composeAddButton
 	});
 	self.add(nav);
 
@@ -89,8 +98,8 @@ function composeView(_args) {
 	// OPEN
 	self.open({modal: true});
 
-	composeDoneButton.addEventListener('click', function(e){composeDone(e, self);});
-	// composeAddButton.addEventListener( 'click', function(e){composeAdd( e, self); });
+	composeDoneButton.addEventListener('click', function(e){composeDonePressed(e, self);});
+	composeAddButton.addEventListener( 'click', function(e){composeAddPressed(e, self, table);});
 	ta.addEventListener('postlayout', function(e){ta.focus();});
 	
 	// ta.focus();

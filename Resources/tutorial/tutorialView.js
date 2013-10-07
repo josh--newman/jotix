@@ -4,14 +4,26 @@
  * tutorialView.js
  */
 
-
 var carouselWindow = Titanium.UI.createWindow({
 	backgroundGradient: {
 		type: 'linear',
 		startPoint: {x: '0%', y: '0%'},
 		endPoint: {x: '0%', y: '100%'},
 		colors: ['#1DADF8', '#CC73E1'] //29,173,248 (blue)  204,115,225 (pink)  255,0,128 (hot pink)
-	}
+	},
+	navBarHidden: true,
+	top: 0,
+	orientationModes: [Ti.UI.PORTRAIT]
+});
+
+var fourSSafeView = Ti.UI.createView({
+	height: IPHONE4_HEIGHT - 44,
+	width: platformWidth,
+	center: {
+		x: platformWidth / 2,
+		y: platformHeight / 2
+	},
+	background: "yellow"
 });
 
 // create image view
@@ -19,12 +31,12 @@ var image = Ti.UI.createImageView({
 	image: 'images/welcome_shot.png',
 	center: {
 		x: platformWidth / 2,
-		y: 180
+		y: IMG_SIZE/2 + 10
 	},
-	height: 280,
-	width: 280
+	height: IMG_SIZE,
+	width: IMG_SIZE
 });
-carouselWindow.add(image);
+fourSSafeView.add(image);
 
 // add title label
 var title = Ti.UI.createLabel({
@@ -32,14 +44,14 @@ var title = Ti.UI.createLabel({
 	color: "white",
 	center: {
 		x: platformWidth / 2,
-		y: image.height + 90
+		y: IMG_SIZE + 50
 	},
 	font: {
 		fontSize: 30,
 		fontWeight: "semibold"
 	}
 });
-carouselWindow.add(title);
+fourSSafeView.add(title);
 
 // add subtitle text
 var subtitle = Ti.UI.createLabel({
@@ -47,116 +59,23 @@ var subtitle = Ti.UI.createLabel({
 	color: "white",
 	center: {
 		x: platformWidth / 2,
-		y: title.center.y + 50
+		y: title.center.y + 30
 	}
 });
-carouselWindow.add(subtitle);
+fourSSafeView.add(subtitle);
 
 var tutorialDoneButton = Ti.UI.createButton({
-	title: "Done",
+	title: "Start",
 	center: {
 		x: platformWidth / 2,
-		y: subtitle.center.y + 60 
+		y: subtitle.center.y + 50 
 	},
 	width: 60,
 	borderRadius: 8,
 	borderColor: "white",
 	color: "white"
 });
-carouselWindow.add(tutorialDoneButton);
+fourSSafeView.add(tutorialDoneButton);
 
-// create tutorial container
-// var carouselContainer = Ti.UI.createView({
-	// center: {
-		// x: platformWidth / 2,
-		// y: (platformHeight / 2) - (NAV_HEIGHT / 2)
-	// },
-	// height: IPHONE4_HEIGHT - NAV_HEIGHT
-// });
+carouselWindow.add(fourSSafeView);
 
-// create tutorial navigation
-// var carouselNav = Ti.UI.createView({
-	// center: {
-		// x: platformWidth / 2,
-		// y: (platformHeight / 2) + (carouselContainer.height / 2)
-	// },
-	// height: NAV_HEIGHT
-// });
-
-// // buttons for nav
-// var navSkipButton = Ti.UI.createButton({
-	// title: "Skip",
-	// center: {
-		// x: platformWidth * 0.2,
-		// y: NAV_HEIGHT / 2
-	// }
-// });
-// 
-// var navNextButton = Ti.UI.createButton({
-	// title: "Next",
-	// center: {
-		// x: platformWidth * 0.8,
-		// y: NAV_HEIGHT / 2
-	// }
-// });
-// carouselNav.add(navSkipButton);
-// carouselNav.add(navNextButton);
-
-
-// Create image views and set their positions
-// for (var c = 0; c < cardArray.length; c++) {
-	// carouselContainer.add(createCard(cardArray[c].image, cardArray[c].title, cardArray[c].subtitle, platformWidth * c));
-// };
-
-// // create card function
-// function createCard(image, title, subtitle, leftPos) {
-	// // create view
-	// var card = Ti.UI.createView({
-		// left: leftPos
-	// });
-// 	
-	// // create image view
-	// var image = Ti.UI.createImageView({
-		// image: image,
-		// center: {
-			// x: platformWidth / 2,
-			// y: 150
-		// },
-		// height: 250,
-		// width: 250
-	// });
-	// // add image to view
-	// card.add(image);
-// 	
-	// // add title label
-	// var title = Ti.UI.createLabel({
-		// text: title,
-		// color: "white",
-		// center: {
-			// x: platformWidth / 2,
-			// y: image.height + 75
-		// },
-		// font: {
-			// fontSize: 30,
-			// fontWeight: "semibold"
-		// }
-	// });
-	// card.add(title);
-// 	
-	// // add subtitle text
-	// var subtitle = Ti.UI.createLabel({
-		// text: subtitle,
-		// color: "white",
-		// center: {
-			// x: platformWidth / 2,
-			// y: title.center.y + 50
-		// }
-	// });
-	// card.add(subtitle);
-// 	
-	// return card;
-// };
-
-// carouselWindow.add(carouselNav);
-// carouselWindow.add(carouselContainer);
-carouselWindow.open();

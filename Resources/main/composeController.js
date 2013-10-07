@@ -5,6 +5,21 @@
  */
 
 // done
+function composeDonePressed(e, win) {
+	composeDone(e, win);
+}
+
+// add
+function composeAddPressed(e, win, table) {
+	// SAVE NOTE
+	composeDone(e, win);
+	// ANIMATE NEW NOTE
+	// WAIT FOR LAST ANIMATION TO STOP
+	setTimeout(function(){
+		composeWin({parentId: Notes.currentPID(), thisTable: table});
+	}, 800);
+}
+
 function composeDone(e, win) {
 	var thisId = e.source.noteId;
 	var content = e.source.textarea.value;
@@ -23,12 +38,4 @@ function composeDone(e, win) {
 	// CLOSE COMPOSE WINDOW
 	win.close({modal: true});
 	win = null;
-}
-
-// add
-function composeAdd(e, win) {
-	// SAVE NOTE
-	
-	// ANIMATE NEW NOTE
-	
 }

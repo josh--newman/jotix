@@ -30,6 +30,10 @@ settingsRowWeb.addEventListener('click',   function(e) {
 	settingsWebview.url = defaultURL;
 	settingsNavGroup.open(settingsWebWin);
 });
+settingsRowTutorial.addEventListener('click',   function(e) {
+	carouselWindow.open({modal: true});
+});
+
 
 
 /**
@@ -62,11 +66,9 @@ Ti.Gesture.addEventListener('orientationchange', function(e){
 	// Ti.API.log("Orientation changed: " + e.orientation);
     if(e.orientation == 3 || e.orientation == 4){
     	logo.center = {x: platformHeight / 2};
-    	logo.bottom = 30;
     }
     else if(e.orientation == 1){
     	logo.center = {x: platformWidth / 2};
-    	logo.bottom = 50;
     }
     Ti.API.log("logo: " + JSON.stringify(logo,null,4));
 });

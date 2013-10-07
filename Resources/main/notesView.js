@@ -32,19 +32,20 @@ function createRow(c, i, nID, pID) {
 				   top: LABEL_PADDING,	// included from /model/settings.js
 				bottom: LABEL_PADDING,
 				  left: LABEL_PADDING,
-				 right: 60
+				 right: 70
 	});
 	styledElements.rowLabels.push(noteLabel);
 	row.add(noteLabel);
 	
 	var viewNestedButton = Ti.UI.createButton({
 		title: "more",
-		thisId: nID
+		thisId: nID,
+		right: LABEL_PADDING
 		// systemButton: Titanium.UI.iPhone.SystemButton.CONTACT_ADD,
 	});
 	var viewNestedView = Ti.UI.createView({
-		 right: 10,
-		 width: 60,
+		 right: 0,
+		 width: 70,
 		height: 44
 	});
 	viewNestedView.add(viewNestedButton);
@@ -86,11 +87,11 @@ var table = Ti.UI.createTableView({
 
 // CREATE BUTTONS
 var addButton	= Ti.UI.createButton({
-	systemButton: Titanium.UI.iPhone.SystemButton.ADD,
+	systemButton: Ti.UI.iPhone.SystemButton.ADD,
 	    parentId: Notes.currentPID()
 });
 var doneButton	= Ti.UI.createButton({
-	systemButton: Titanium.UI.iPhone.SystemButton.DONE,
+	systemButton: Ti.UI.iPhone.SystemButton.DONE,
 	    parentId: Notes.currentPID()
 });
 

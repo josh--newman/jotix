@@ -5,6 +5,7 @@
  */
 var IPHONE4_HEIGHT = 480;
 var NAV_HEIGHT = 44;
+var IMG_SIZE = 280;
 
 var cardArray = [
 	{
