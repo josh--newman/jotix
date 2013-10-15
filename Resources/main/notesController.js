@@ -9,7 +9,7 @@
 
 function addButtonClick(e) {
 	Ti.API.log('addButtonClick: ' + JSON.stringify(e.source,null,4));
-	composeWin({parentId: Notes.currentPID(), thisTable: table});
+	composeWin({parentId: Notes.currentPID(), thisTable: Notes.getTableView(Notes.currentPID())});
 }
 function doneButtonClick(e) {
 	Ti.API.log('doneButtonClick');
@@ -28,6 +28,14 @@ function doneButtonClick(e) {
 }
 
 
+// WHOLE VIEW NAVIGATION
+
+self.addEventListener('close', function(e){
+	Ti.API.log("Window closed: " + e.source.parentId);
+	Notes.windowWasClosed({id: e.source.parentId});
+});
+
+
 // TABLEVIEW FUNCTIONS
 
 function noteReturn(e) {
@@ -40,16 +48,16 @@ function noteClick(e) {
 	Ti.API.log('noteClick: ' + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.parentId);	// Just in case
 	composeWin({
-		parentId: Notes.currentPID(), 
+		parentId: Notes.currentPID(),
 		thisTable: table,
 		noteData: {
-			content: e.source.text, 
+			content: e.source.text,
 			noteId: e.source.thisId
 		}
 	});
 }
 function viewNestedClick(e) {
-	// SHOW NOTES 
+	// SHOW NOTES
 	Ti.API.log("viewNestedClick: " + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.thisId);
 	Ti.API.log("viewNestedClick; parentId:" + Notes.currentPID() + " ######################################################");
@@ -57,11 +65,11 @@ function viewNestedClick(e) {
 }
 
 function tableRowClick(e) {
-	// SHOW NOTES 
+	// SHOW NOTES
 	Ti.API.log("tableRowClick: " + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.thisId);
 	Ti.API.log("tableRowClick; parentId:" + Notes.currentPID() + " ######################################################");
-	mainNavGroup.open(newList().win);		
+	mainNavGroup.open(newList().win);
 }
 
 
@@ -77,7 +85,7 @@ function insertNote(pID, i) {
 			backgroundColor: THEME_GB
 		});
 		var newData = Notes.insertNote({parentId: pID, index: 0});
-		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID); 
+		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID);
 		data.add(newRow.row);
 		table.data = [data];
 		currentlyFocusedTextArea = newRow.textInput;
@@ -86,10 +94,10 @@ function insertNote(pID, i) {
 		Ti.API.log('adding new note to: ' + Notes.currentPID() + ' at index: ' + indexOfNewRow);
 		table.scrollToIndex(indexOfNewRow);
 		var newData = Notes.insertNote({parentId: pID, index: indexOfNewRow});
-		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID); 
+		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID);
 		// Ti.API.log('table.data[0].rows: ' + JSON.stringify(table.data[0].rows,null,4));
 		table.insertRowAfter(i,newRow.row,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.DOWN});
-		
+
 		currentlyFocusedTextArea = newRow.textInput;
 	}
 	currentlyFocusedTextArea.focus();

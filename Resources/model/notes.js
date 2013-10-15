@@ -10,84 +10,125 @@ var tableViewCollection = {};
 
 var Notes = {
 	// APP STATE
-	 setCurrentPID: function(parentID) {
-	 					Ti.API.log('Settings PID: ' + parentID);
-				     	Ti.App.Properties.setString("currentPID", parentID);
-				    },
-	    currentPID: function() {
-						Ti.API.log('Notes.currentPID()');
-						return Ti.App.Properties.getString("currentPID", -1);
-					},
-	   contentAtID: function(_args) {
-						Ti.API.log('Notes.contentAtID(): ' + JSON.stringify(_args,null,4));
-						var PID = _args.parentId;
-						for (var n in notesFlatDatabase) {
-							if (notesFlatDatabase[n].noteId == PID) {
-								return notesFlatDatabase[n].content;
-							}
-						}
-						return "";
-					},
-		notesArray: function(_args) {
-						Ti.API.log('Notes.notesArray(): ' + JSON.stringify(_args,null,4));
-						var PID = _args.parentId;
-						// FIND ALL instances of that item
-						var notesWithThisPID = [];
-						for (var n in notesFlatDatabase) {
-							if (notesFlatDatabase[n].parentId == PID) {
-								notesWithThisPID.push(notesFlatDatabase[n]);
-							}
-						}
-						Ti.API.log('notesFlatDatabase: ' + JSON.stringify(notesFlatDatabase,null,4));
-						return notesWithThisPID;
-					},
-	pIDBreadcrumbs: function(_args) {
-						Ti.API.log('Notes.pIDBreadcrumbs(): ' + JSON.stringify(_args,null,4));
-						var PID = _args.parentId;
-						var tempPID = PID;
-						var bcArray = [];
-						bcArray.push(tempPID);
-						var giveupcount = 30;
-						while (tempPID > 0 && giveupcount > 0) {
-							tempPID = _getParentIdOf(tempPID);
-							if (tempPID != -1) bcArray.push(tempPID);
-							giveupcount--;
-						}
-						return bcArray.reverse();
-					},
-		insertNote: function(_args) {
-						Ti.API.log('Notes.insertNote(): ' + JSON.stringify(_args,null,4));
-						var insertIndex = _args.index,
-							insertIntoParentId = _args.parentId;
-						Ti.App.Properties.setString("currentPID", insertIntoParentId);
-						var newNote = _insertNewBlankNote(insertIntoParentId, insertIndex);
-						_syncDatabase();
-						return newNote;
-					},
-		removeNote: function(_args) {
-						Ti.API.log('Notes.removeNote(): ' + JSON.stringify(_args,null,4));
-						var removeId = _args.id;
-						for (var n in notesFlatDatabase) {
-							if (notesFlatDatabase[n].noteId == removeId) {
-								// splice out of database 
-								Ti.API.log('Removed: ' +notesFlatDatabase.splice(n,1));
-							}
-						}
-						_syncDatabase();
-					},
-		 amendNote: function(_args) {
-						Ti.API.log('Notes.amendNote(): ' + JSON.stringify(_args,null,4));
-						var amendID = _args.id,
-							amendContent = _args.content;
-						for (var n in notesFlatDatabase) {
-							if (notesFlatDatabase[n].noteId == amendID) {
-								notesFlatDatabase[n].content = amendContent;
-								notesFlatDatabase[n].breadcrumbs = _breadcrumbs(amendID) +">"+ amendContent;
-							}
-						}
-						_syncDatabase();
-		 			}
-		   
+	setCurrentPID: function(parentID)
+	{
+		Ti.API.log('Settings PID: ' + parentID);
+		Ti.App.Properties.setString("currentPID", parentID);
+	},
+	currentPID: function()
+	{
+		Ti.API.log('Notes.currentPID()');
+		return Ti.App.Properties.getString("currentPID", -1);
+	},
+	contentAtID: function(_args)
+	{
+		Ti.API.log('Notes.contentAtID(): ' + JSON.stringify(_args,null,4));
+		var PID = _args.parentId;
+		for (var n in notesFlatDatabase) {
+			if (notesFlatDatabase[n].noteId == PID) {
+				return notesFlatDatabase[n].content;
+			}
+		}
+		return "";
+	},
+	notesArray: function(_args)
+	{
+		Ti.API.log('Notes.notesArray(): ' + JSON.stringify(_args,null,4));
+		var PID = _args.parentId;
+		// FIND ALL instances of that item
+		var notesWithThisPID = [];
+		for (var n in notesFlatDatabase) {
+			if (notesFlatDatabase[n].parentId == PID) {
+				notesWithThisPID.push(notesFlatDatabase[n]);
+			}
+		}
+		Ti.API.log('notesFlatDatabase: ' + JSON.stringify(notesFlatDatabase,null,4));
+		return notesWithThisPID;
+	},
+	pIDBreadcrumbs: function(_args)
+	{
+		Ti.API.log('Notes.pIDBreadcrumbs(): ' + JSON.stringify(_args,null,4));
+		var PID = _args.parentId;
+		var tempPID = PID;
+		var bcArray = [];
+		bcArray.push(tempPID);
+		var giveupcount = 30;
+		while (tempPID > 0 && giveupcount > 0) {
+			tempPID = _getParentIdOf(tempPID);
+			if (tempPID != -1) bcArray.push(tempPID);
+			giveupcount--;
+		}
+		return bcArray.reverse();
+	},
+	insertNote: function(_args)
+	{
+		Ti.API.log('Notes.insertNote(): ' + JSON.stringify(_args,null,4));
+		var insertIndex = _args.index,
+		insertIntoParentId = _args.parentId;
+		Ti.App.Properties.setString("currentPID", insertIntoParentId);
+		var newNote = _insertNewBlankNote(insertIntoParentId, insertIndex);
+		_syncDatabase();
+		return newNote;
+	},
+	removeNote: function(_args)
+	{
+		Ti.API.log('Notes.removeNote(): ' + JSON.stringify(_args,null,4));
+		var removeId = _args.id;
+		for (var n in notesFlatDatabase) {
+			if (notesFlatDatabase[n].noteId == removeId) {
+				// splice out of database
+				Ti.API.log('Removed: ' +notesFlatDatabase.splice(n,1));
+			}
+		}
+		_syncDatabase();
+	},
+	amendNote: function(_args)
+	{
+		Ti.API.log('Notes.amendNote(): ' + JSON.stringify(_args,null,4));
+		var amendID = _args.id,
+		amendContent = _args.content;
+		for (var n in notesFlatDatabase) {
+			if (notesFlatDatabase[n].noteId == amendID) {
+				notesFlatDatabase[n].content = amendContent;
+				notesFlatDatabase[n].breadcrumbs = _breadcrumbs(amendID) +">"+ amendContent;
+			}
+		}
+		_syncDatabase();
+	},
+	superParent: function(_args)
+	{
+		Ti.API.log('Notes.superParent('+_args.id+'): ' + JSON.stringify(_args,null,4));
+		var thisNoteId = _args.id,
+		superParent = "";
+		for (var n in notesFlatDatabase) {
+			if (notesFlatDatabase[n].noteId == thisNoteId) {
+				superParent = notesFlatDatabase[n].parentId;
+			}
+		}
+		return superParent;
+	},
+	windowWasClosed: function(_args)
+	{
+		Ti.API.log('Notes.windowWasClosed('+_args.id+'): ' + JSON.stringify(_args,null,4));
+		var thisParentId = _args.id;
+		Notes.setCurrentPID(Notes.superParent({id: thisParentId}));
+		delete tableViewCollection[thisParentId];
+		Ti.API.log('tableViewCollection: ' + JSON.stringify(tableViewCollection,null,4));
+	},
+	addTableView: function(_args)
+	{
+		Ti.API.log('Notes.addTableView(): ' + JSON.stringify(_args,null,4));
+		var thisParentId = _args.id,
+				table = _args.table;
+		tableViewCollection[thisParentId] = table;
+		Ti.API.log('tableViewCollection: ' + JSON.stringify(tableViewCollection,null,4));
+	},
+	getTableView: function(_args)
+	{
+		Ti.API.log('Notes.getTableView(): ' + JSON.stringify(_args,null,4));
+		var thisParentId = _args.id;
+		return tableViewCollection[thisParentId];
+	}
 };
 
 
@@ -228,7 +269,7 @@ function _insertNewBlankNote(PID, i) {
 	notesWithThisPID.splice(i, 0, theNewNote);
 	Ti.API.log("INSERT notesWithThisPID: " + JSON.stringify(notesWithThisPID,null,4));
 	for (var n in notesWithThisPID) {
-		if (notesWithThisPID[n].order >= i) {notesWithThisPID[n].order++;} 
+		if (notesWithThisPID[n].order >= i) {notesWithThisPID[n].order++;}
 		notesFlatDatabase.push(notesWithThisPID[n]);
 	}
 	Ti.API.log("INSERT notesFlatDatabase: " + JSON.stringify(notesFlatDatabase,null,4));
@@ -240,7 +281,7 @@ function _breadcrumbs(PID) {
 	for (var i in notesFlatDatabase) {
 		if (notesFlatDatabase[i].noteId == PID) {
 			bcSTR = notesFlatDatabase[i].breadcrumbs;
-		} 
+		}
 	}
 	return bcSTR;
 }

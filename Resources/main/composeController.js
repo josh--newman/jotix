@@ -33,7 +33,12 @@ function composeDone(e, win) {
 	}
 		
 	// UPDATE TABLE VIEW
-	table.data = [createTableData()];
+	var currentTable = Notes.getTableView({id: Notes.currentPID()});
+	Ti.API.log('Notes.currentPID(): ' + JSON.stringify(Notes.currentPID(),null,4));
+	Ti.API.log('currentTable: ' + JSON.stringify(currentTable,null,4));
+	Ti.API.log('tableViewCollection: ' + JSON.stringify(tableViewCollection,null,4));
+	
+	currentTable.data = [createTableData()];
 	
 	// CLOSE COMPOSE WINDOW
 	win.close({modal: true});
