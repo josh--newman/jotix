@@ -12,6 +12,7 @@ NoteView.prototype.addEventListeners = function(){
 	// WHOLE VIEW NAVIGATION
 	this.win.addEventListener('close', function(e){
 		Ti.API.log("Window closed: " + e.source.parentId);
+		playSound("LOW");
 		Notes.windowWasClosed({id: e.source.parentId});
 	});
 	
@@ -32,10 +33,12 @@ NoteView.prototype.addEventListeners = function(){
 
 NoteView.prototype.addButtonClick = function(e) {
 	Ti.API.log('addButtonClick: ' + JSON.stringify(e.source,null,4));
+	playSound("HI");
 	composeWin({parentId: Notes.currentPID(), thisTable: Notes.getTableView(Notes.currentPID())});
 };
 NoteView.prototype.doneButtonClick = function(e) {
 	Ti.API.log('doneButtonClick');
+	playSound("LOW");
 	Notes.setCurrentPID(e.source.parentId);	// Just in case
 	this.win.setRightNavButton(this.addButton);
 	if (e.source.value == "") {
@@ -60,6 +63,7 @@ NoteView.prototype.noteReturn = function(e) {
 
 NoteView.prototype.noteClick = function(e) {
 	Ti.API.log('noteClick: ' + JSON.stringify(e.source,null,4));
+	playSound("HI");
 	Notes.setCurrentPID(e.source.parentId);	// Just in case
 	composeWin({
 		parentId: Notes.currentPID(),
@@ -73,20 +77,12 @@ NoteView.prototype.noteClick = function(e) {
 NoteView.prototype.viewNestedClick = function(e) {
 	// SHOW NOTES
 	Ti.API.log("viewNestedClick: " + JSON.stringify(e.source,null,4));
+	playSound("HI");
 	Notes.setCurrentPID(e.source.thisId);
 	Ti.API.log("viewNestedClick; parentId:" + Notes.currentPID() + " ######################################################");
 	mainNavGroup.open(newList().win);
 };
 
-NoteView.prototype.tableRowClick = function(e) {
-	// SHOW NOTES
-	Ti.API.log("tableRowClick: " + JSON.stringify(e.source,null,4));
-	Notes.setCurrentPID(e.source.thisId);
-	Ti.API.log("tableRowClick; parentId:" + Notes.currentPID() + " ######################################################");
-	mainNavGroup.open(newList().win);
-};
-	
-	
 NoteView.prototype.insertNote = function(pID, i) {
 	Ti.API.log('insertNote('+pID+', '+i+')');
 	// add a new note after theIndex

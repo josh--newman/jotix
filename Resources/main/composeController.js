@@ -15,11 +15,13 @@ function addEventListenersToComposeView() {
 
 // done
 function composeDonePressed(e, win) {
+	playSound("LOW");
 	composeDone(e, win);
 }
 
 // add
 function composeAddPressed(e, win, table) {
+	playSound("HI");
 	// SAVE NOTE
 	composeDone(e, win);
 	// ANIMATE NEW NOTE

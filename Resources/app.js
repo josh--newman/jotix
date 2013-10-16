@@ -16,6 +16,12 @@
  */
 
 /**
+ * SOUND
+ */
+Ti.include('/sound/soundController.js');
+
+
+/**
  * SETTINGS INCLUDES
  */
 Ti.include('/model/settings.js');
