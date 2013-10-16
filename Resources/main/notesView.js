@@ -78,7 +78,6 @@ NoteView.prototype.createRow = function(c, i, nID, pID) {
 		   top: 0,
 		height: 48,
 		 width: 70,
-	backgroundColor: "yellow",
 		  type: "nest"
 	});
 	viewNestedView.add(viewNestedButton);
