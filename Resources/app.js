@@ -45,7 +45,7 @@ Ti.include('/main/mainButtonsController.js');
 Ti.include('/main/searchView.js');
 Ti.include('/main/searchController.js');
 var newList = require('main/notesViewController');
-var composeWin = require('main/composeView');
+var composeWin = require('main/composeViewController');
 
 /**
  * JOTIX MAIN

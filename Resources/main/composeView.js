@@ -29,12 +29,12 @@ function composeView(_args) {
 	 */
 	
 	// Add textarea to view
-	var ta = Ti.UI.createTextArea({
+	ta = Ti.UI.createTextArea({
 				 value: content,
 				noteId: noteId,
 			  parentId: parentId,
-				  font: {fontFamily: THEME_FONT_FAMILY},
-				 color: THEME_FONT_COLOR,
+				  font: {fontFamily: Settings.font()},
+				 color: Settings.theme().text,
 	   backgroundColor: "none",
 				// height: Ti.UI.SIZE,
 				   top: TEXTAREA_PADDING,
@@ -56,15 +56,16 @@ function composeView(_args) {
 	view.add(ta);
 	
 	// BUTTONS
-	var composeDoneButton = Ti.UI.createButton({
+	composeDoneButton = Ti.UI.createButton({
 		systemButton:Titanium.UI.iPhone.SystemButton.DONE, 
 		noteId: noteId,
 		textarea: ta
 	});
-	var composeAddButton  = Ti.UI.createButton({
+	composeAddButton  = Ti.UI.createButton({
 		systemButton:Titanium.UI.iPhone.SystemButton.ADD, 
 		noteId: noteId,
-		textarea: ta
+		textarea: ta,
+		enabled: false
 	});
 	
 	// ta.keyboardToolbar = [composeDoneButton, flexButton, composeAddButton];
@@ -82,7 +83,7 @@ function composeView(_args) {
 	});
 	
 	// create self
-	var self = Ti.UI.createWindow({
+	self = Ti.UI.createWindow({
 		top: 0,
 		leftNavButton: composeDoneButton,
 		rightNavButton: composeAddButton
@@ -98,15 +99,8 @@ function composeView(_args) {
 	// OPEN
 	self.open({modal: true});
 
-	composeDoneButton.addEventListener('click', function(e){composeDonePressed(e, self);});
-	composeAddButton.addEventListener( 'click', function(e){composeAddPressed(e, self, table);});
-	ta.addEventListener('postlayout', function(e){ta.focus();});
 	
 	// ta.focus();
 	
 	// return {win:self, textarea: ta};
 }
-
-Ti.include('/main/composeController.js');
-
-module.exports = composeView;

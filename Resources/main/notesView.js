@@ -4,140 +4,147 @@
  * View
  */
 
-Ti.API.log("new JotixList()");
-
-var styledElements = {rows:[], rowLabels:[], other:[]};
-var THEME_GB          = Settings.theme().bg,
-	THEME_GB2         = Settings.theme().bg2,
-	THEME_FONT_FAMILY = Settings.font(),
-	THEME_FONT_COLOR  = Settings.theme().text,
-	THEME_SEARCH_COLOR= Settings.theme().bg2;
-
-function createRow(c, i, nID, pID) {
-	var row = Ti.UI.createTableViewRow({
-			  height: Ti.UI.SIZE,
-	 backgroundColor: THEME_GB,
-			  thisId: nID
+function NoteView() {
+	Ti.API.log("new JotixList()");
+	
+	this.styledElements		= {rows:[], rowLabels:[], other:[]};
+	this.THEME_GB			= Settings.theme().bg;
+	this.THEME_GB2			= Settings.theme().bg2;
+	this.THEME_FONT_FAMILY	= Settings.font();
+	this.THEME_FONT_COLOR	= Settings.theme().text;
+	this.THEME_SEARCH_COLOR	= Settings.theme().bg2;
+	
+	// CREATE TABLE
+	this.table = Ti.UI.createTableView({
+				   data: [this.createTableData()],
+		backgroundColor: this.THEME_GB
+		       // editable: true
 	});
-	styledElements.rows.push(row);
+	
+	// CREATE BUTTONS
+	this.addButton	= Ti.UI.createButton({
+		systemButton: Ti.UI.iPhone.SystemButton.ADD,
+		    parentId: Notes.currentPID()
+	});
+	this.doneButton	= Ti.UI.createButton({
+		systemButton: Ti.UI.iPhone.SystemButton.DONE,
+		    parentId: Notes.currentPID()
+	});
+	
+	// CREATE WINDOW
+	this.win = Titanium.UI.createWindow({
+		 rightNavButton: this.addButton,
+		        // toolbar: navBarButtons,	// Hidden from Assignment 2... muhahaha
+		           font: {fontFamily: this.THEME_FONT_FAMILY},
+		          color: this.THEME_FONT_COLOR,
+		backgroundColor: this.THEME_GB2,
+	           barColor: this.THEME_GB,
+	       tabBarHidden: true,
+		       parentId: Notes.currentPID()
+	});
+	this.styledElements.other.push(this.win);
+	this.win.add(this.table);
+	Notes.addTableView({id: Notes.currentPID(), table: this.table});
+	appIsInitialised = true;
+	
+}
+
+NoteView.prototype.createRow = function(c, i, nID, pID) {
 	var noteLabel = Ti.UI.createLabel({
 				  text: c,
 				 index: i,
 				thisId: nID,
 			  parentId: pID,
-				  font: {fontFamily: THEME_FONT_FAMILY},
-				 color: THEME_FONT_COLOR,
+				  font: {fontFamily: this.THEME_FONT_FAMILY},
+				 color: this.THEME_FONT_COLOR,
 	   backgroundColor: "none",
 				height: Ti.UI.SIZE,
 				   top: LABEL_PADDING,	// included from /model/settings.js
 				bottom: LABEL_PADDING,
 				  left: LABEL_PADDING,
-				 right: 70
+				 right: 70,
+		  		  type: "edit"
 	});
-	styledElements.rowLabels.push(noteLabel);
-	row.add(noteLabel);
 
 	var viewNestedButton = Ti.UI.createButton({
-		title: "more",
+		 title: "more",
 		thisId: nID,
-		right: LABEL_PADDING
+		 right: LABEL_PADDING,
+		  type: "nest"
 		// systemButton: Titanium.UI.iPhone.SystemButton.CONTACT_ADD,
 	});
 	var viewNestedView = Ti.UI.createView({
 		 right: 0,
+		   top: 0,
+		height: 48,
 		 width: 70,
-		height: 44
+	backgroundColor: "yellow",
+		  type: "nest"
 	});
 	viewNestedView.add(viewNestedButton);
+
+	var row = Ti.UI.createTableViewRow({
+			  height: Ti.UI.SIZE,
+	 backgroundColor: this.THEME_GB,
+			  thisId: nID,
+			elements: {
+			  			noteLabel: noteLabel,
+			  			viewNestedButton: viewNestedButton
+			  		  },
+			    type: "edit"
+	});
+	row.add(noteLabel);
 	row.add(viewNestedView);
+
+	// this.styledElements.rowLabels.push(noteLabel);
+	// this.styledElements.rows.push(row);
 
 
 	// -- adding event listening here on the textInput
 	//    because it can't be accessed from table.
-	noteLabel.addEventListener('click', function(e){noteClick(e); });
-	viewNestedButton.addEventListener('click', function(e){viewNestedClick(e); });
+	// noteLabel.addEventListener('click', function(e){this.noteClick(e); });
+	// viewNestedButton.addEventListener('click', function(e){this.viewNestedClick(e); });
 
 	return {row: row, noteLabel: noteLabel};
-}
+};
 
-
-function createTableData() {
-	styledElements.rowLabels = [];	// initialise
+NoteView.prototype.createTableData = function() {
 	var notesArr = Notes.notesArray({parentId: Notes.currentPID()});
 
 	// CREATE ROWS
 	var data = Ti.UI.createTableViewSection({
 		    headerTitle: Notes.contentAtID({parentId: Notes.currentPID()}),
-		backgroundColor: THEME_GB
+		backgroundColor: this.THEME_GB
 	});
 
 	for (var i = 0; i < notesArr.length; i++) {
-		var row = createRow(notesArr[i].content, i, notesArr[i].noteId, notesArr[i].parentId).row;
+		var row = this.createRow(notesArr[i].content, i, notesArr[i].noteId, notesArr[i].parentId).row;
 		data.add(row);
 	}
 	return data;
-}
+};
 
-// CREATE TABLE
-var table = Ti.UI.createTableView({
-			   data: [createTableData()],
-	backgroundColor: THEME_GB
-	       // editable: true
-});
-
-// CREATE BUTTONS
-var addButton	= Ti.UI.createButton({
-	systemButton: Ti.UI.iPhone.SystemButton.ADD,
-	    parentId: Notes.currentPID()
-});
-var doneButton	= Ti.UI.createButton({
-	systemButton: Ti.UI.iPhone.SystemButton.DONE,
-	    parentId: Notes.currentPID()
-});
-
-// CREATE WINDOW
-var self = Titanium.UI.createWindow({
-	 rightNavButton: addButton,
-	        // toolbar: navBarButtons,	// Hidden from Assignment 2... muhahaha
-	           font: {fontFamily: THEME_FONT_FAMILY},
-	          color: THEME_FONT_COLOR,
-	backgroundColor: THEME_GB2,
-           barColor: THEME_GB,
-       tabBarHidden: true,
-	       parentId: Notes.currentPID()
-});
-styledElements.other.push(self);
-self.add(table);
-Notes.addTableView({id: Notes.currentPID(), table: table});
-appIsInitialised = true;
-
-// EVENT LISTENERS   -- handled in CONTROLLER
-// table.addEventListener('click', function(e) {tableRowClick(e);});
-addButton.addEventListener('click', function(e) {addButtonClick(e);});
-doneButton.addEventListener('click', function(e) {doneButtonClick(e);});
-
-// UPDATE VIEW
-function updateView() {
+NoteView.prototype.updateView = function() {
 	Ti.API.log('JotixNotes.updateView()');
 
-	THEME_GB          = Settings.theme().bg,
-	THEME_GB2         = Settings.theme().bg2,
-	THEME_FONT_FAMILY = Settings.font(),
-	THEME_FONT_COLOR  = Settings.theme().text,
-	THEME_SEARCH_COLOR= Settings.theme().bg2;
+	this.THEME_GB          = Settings.theme().bg,
+	this.THEME_GB2         = Settings.theme().bg2,
+	this.THEME_FONT_FAMILY = Settings.font(),
+	this.THEME_FONT_COLOR  = Settings.theme().text,
+	this.THEME_SEARCH_COLOR= Settings.theme().bg2;
 
-	for (var row in styledElements.rows) {
-		styledElements.rows[row].backgroundColor = THEME_GB;
+	for (var row in this.styledElements.rows) {
+		this.styledElements.rows[row].backgroundColor = this.THEME_GB;
 	}
-	for (var rowLabel in styledElements.rowLabels) {
-		styledElements.rowLabels[rowLabel].font  = {fontFamily: THEME_FONT_FAMILY};
-		styledElements.rowLabels[rowLabel].color = THEME_FONT_COLOR;
+	for (var rowLabel in this.styledElements.rowLabels) {
+		this.styledElements.rowLabels[rowLabel].font  = {fontFamily: this.THEME_FONT_FAMILY};
+		this.styledElements.rowLabels[rowLabel].color = this.THEME_FONT_COLOR;
 	}
-	for (var i in styledElements.other) {
-		styledElements.other[i].font = {fontFamily: THEME_FONT_FAMILY};
-		styledElements.other[i].color = THEME_FONT_COLOR;
-		styledElements.other[i].backgroundColor = THEME_GB2;
-		styledElements.other[i].barColor = THEME_GB;
+	for (var i in this.styledElements.other) {
+		this.styledElements.other[i].font = {fontFamily: this.THEME_FONT_FAMILY};
+		this.styledElements.other[i].color = this.THEME_FONT_COLOR;
+		this.styledElements.other[i].backgroundColor = this.THEME_GB2;
+		this.styledElements.other[i].barColor = this.THEME_GB;
 	}
-}
+};
 

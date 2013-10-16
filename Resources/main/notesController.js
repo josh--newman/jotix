@@ -4,108 +4,120 @@
  * Controller
  */
 
+NoteView.prototype.addEventListeners = function(){
+	// NAV BUTTON FUNCTIONS
+	this.addButton.addEventListener('click', function(e) {NoteView.prototype.addButtonClick(e);});
+	this.doneButton.addEventListener('click', function(e) {NoteView.prototype.doneButtonClick(e);});
+	
+	// WHOLE VIEW NAVIGATION
+	this.win.addEventListener('close', function(e){
+		Ti.API.log("Window closed: " + e.source.parentId);
+		Notes.windowWasClosed({id: e.source.parentId});
+	});
+	
+	// TABLEVIEW FUNCTIONS
+	this.table.addEventListener('click', function(e) {
+		// Ti.API.log('Table tap: ' + JSON.stringify(e,null,4));
+		if (e.source.type === "nest") {
+			Ti.API.log('e.source.type: nest');
+			NoteView.prototype.viewNestedClick(e);
+		} else if (e.source.type === "edit") {
+			Ti.API.log('e.source.type: edit');
+			NoteView.prototype.noteClick(e);
+		}
+	});
+};
 
-// NAV BUTTON FUNCTIONS
 
-function addButtonClick(e) {
+
+NoteView.prototype.addButtonClick = function(e) {
 	Ti.API.log('addButtonClick: ' + JSON.stringify(e.source,null,4));
 	composeWin({parentId: Notes.currentPID(), thisTable: Notes.getTableView(Notes.currentPID())});
-}
-function doneButtonClick(e) {
+};
+NoteView.prototype.doneButtonClick = function(e) {
 	Ti.API.log('doneButtonClick');
 	Notes.setCurrentPID(e.source.parentId);	// Just in case
-	self.setRightNavButton(addButton);
+	this.win.setRightNavButton(this.addButton);
 	if (e.source.value == "") {
 		// delete note
-		Notes.removeNote({id: currentlyFocusedTextArea.thisId});
+		Notes.removeNote({id: this.currentlyFocusedTextArea.thisId});
 	} else {
 		// amend note in database
-		Notes.amendNote({id: currentlyFocusedTextArea.thisId, content: currentlyFocusedTextArea.value});
+		Notes.amendNote({id: this.currentlyFocusedTextArea.thisId, content: this.currentlyFocusedTextArea.value});
 	}
-	currentlyFocusedTextArea = null;
+	this.currentlyFocusedTextArea = null;
 	// currentlyFocusedTextArea.blur();
-	table.data = [createTableData()];
-}
+	this.table.data = [this.createTableData()];
+};
 
 
-// WHOLE VIEW NAVIGATION
 
-self.addEventListener('close', function(e){
-	Ti.API.log("Window closed: " + e.source.parentId);
-	Notes.windowWasClosed({id: e.source.parentId});
-});
-
-
-// TABLEVIEW FUNCTIONS
-
-function noteReturn(e) {
+NoteView.prototype.noteReturn = function(e) {
 	Ti.API.log('return textInput');//: ' + JSON.stringify(e,null,4));
 	// Add new item below current index
 	if (e.source.value != "") insertNote(e.source.parentId, e.source.index);
-}
+};
 
-function noteClick(e) {
+NoteView.prototype.noteClick = function(e) {
 	Ti.API.log('noteClick: ' + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.parentId);	// Just in case
 	composeWin({
 		parentId: Notes.currentPID(),
-		thisTable: table,
+		thisTable: this.table,
 		noteData: {
 			content: e.source.text,
 			noteId: e.source.thisId
 		}
 	});
-}
-function viewNestedClick(e) {
+};
+NoteView.prototype.viewNestedClick = function(e) {
 	// SHOW NOTES
 	Ti.API.log("viewNestedClick: " + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.thisId);
 	Ti.API.log("viewNestedClick; parentId:" + Notes.currentPID() + " ######################################################");
 	mainNavGroup.open(newList().win);
-}
+};
 
-function tableRowClick(e) {
+NoteView.prototype.tableRowClick = function(e) {
 	// SHOW NOTES
 	Ti.API.log("tableRowClick: " + JSON.stringify(e.source,null,4));
 	Notes.setCurrentPID(e.source.thisId);
 	Ti.API.log("tableRowClick; parentId:" + Notes.currentPID() + " ######################################################");
 	mainNavGroup.open(newList().win);
-}
-
-
-// HELPER FUNCTIONS
-
-function insertNote(pID, i) {
+};
+	
+	
+NoteView.prototype.insertNote = function(pID, i) {
 	Ti.API.log('insertNote('+pID+', '+i+')');
 	// add a new note after theIndex
 	Notes.setCurrentPID(pID);	// Just in case
 	if (i == -1) {
 		var data = Ti.UI.createTableViewSection({
 		        headerTitle: Notes.contentAtID({parentId: Notes.currentPID()}),
-			backgroundColor: THEME_GB
+			backgroundColor: this.THEME_GB
 		});
 		var newData = Notes.insertNote({parentId: pID, index: 0});
-		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID);
+		var newRow = this.createRow(newData.content, newData.order, newData.noteId, newData.pID);
 		data.add(newRow.row);
-		table.data = [data];
-		currentlyFocusedTextArea = newRow.textInput;
+		this.table.data = [data];
+		this.currentlyFocusedTextArea = newRow.textInput;
 	} else {
 		var indexOfNewRow = i + 1;
 		Ti.API.log('adding new note to: ' + Notes.currentPID() + ' at index: ' + indexOfNewRow);
-		table.scrollToIndex(indexOfNewRow);
+		this.table.scrollToIndex(indexOfNewRow);
 		var newData = Notes.insertNote({parentId: pID, index: indexOfNewRow});
-		var newRow = createRow(newData.content, newData.order, newData.noteId, newData.pID);
+		var newRow = this.createRow(newData.content, newData.order, newData.noteId, newData.pID);
 		// Ti.API.log('table.data[0].rows: ' + JSON.stringify(table.data[0].rows,null,4));
-		table.insertRowAfter(i,newRow.row,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.DOWN});
+		this.table.insertRowAfter(i,newRow.row,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.DOWN});
 
-		currentlyFocusedTextArea = newRow.textInput;
+		this.currentlyFocusedTextArea = newRow.textInput;
 	}
-	currentlyFocusedTextArea.focus();
+	this.currentlyFocusedTextArea.focus();
 	// remove "NO MORE NOTES" graphic
-}
-function deleteEmptyNote(i) {
-	table.deleteRow(i,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.UP});
-	currentlyFocusedTextArea = null;
+};
+NoteView.prototype.deleteEmptyNote = function(i) {
+	this.table.deleteRow(i,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.UP});
+	this.currentlyFocusedTextArea = null;
 	// add "NO MORE NOTES" graphic
-}
+};
 
