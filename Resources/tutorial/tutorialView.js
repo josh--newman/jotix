@@ -10,7 +10,10 @@ var carouselWindow = Titanium.UI.createWindow({
 		startPoint: {x: '0%', y: '0%'},
 		endPoint: {x: '0%', y: '100%'},
 		colors: ['#1DADF8', '#CC73E1'] //29,173,248 (blue)  204,115,225 (pink)  255,0,128 (hot pink)
-	}
+	},
+	navBarHidden: true,
+	top: 0,
+	orientationModes: [Ti.UI.PORTRAIT]
 });
 
 // Create image views and set their positions
