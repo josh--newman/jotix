@@ -84,14 +84,13 @@ Database.prototype.deleteNote = function(id) {
 // get content at ID
 Database.prototype.contentAtID = function(id) {
 	db = Ti.Database.open(DB_NAME);
-	var rows = db.execute('SELECT content FROM notes WHERE noteId = (?)', id);
-	Ti.API.log("rows: " + JSON.stringify(rows,null,4));
+	var rows = db.execute('SELECT content FROM notes WHERE noteId = ?', id);
 	var result = [];
 	while (rows.isValidRow()) {
 		result.push({
 			content: rows.fieldByName('content')
 		});
-		rows.next;
+		rows.next();
 	}
 	rows.close();
 	db.close();
