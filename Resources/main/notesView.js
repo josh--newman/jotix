@@ -34,7 +34,7 @@ function NoteView() {
 	// CREATE WINDOW
 	this.win = Titanium.UI.createWindow({
 		 rightNavButton: this.addButton,
-		        // toolbar: navBarButtons,	// Hidden from Assignment 2... muhahaha
+		        toolbar: navBarButtons,
 		           font: {fontFamily: this.THEME_FONT_FAMILY},
 		          color: this.THEME_FONT_COLOR,
 		backgroundColor: this.THEME_GB2,
