@@ -17,4 +17,5 @@ settingsSoundToggle.addEventListener('change', function(e){
 // });
 settingsSoundVolumeSlider.addEventListener('touchend', function(e){
 	Settings.setVolume(e.value);
+	playSound("HI");
 });
