@@ -52,6 +52,7 @@ Ti.include('/main/searchView.js');
 Ti.include('/main/searchController.js');
 var newList = require('main/notesViewController');
 var composeWin = require('main/composeViewController');
+Ti.include('/main/stateController.js');
 
 /**
  * JOTIX MAIN
@@ -110,14 +111,6 @@ if (Settings.tutorialSeen() == false) {
 // LOAD PREVIOUS STATE  --  BREADCRUMBS SEQUENTIALLY
 // -- work backwards and collect parentId's
 if (cachedCurrentPID != -1) {
-	var parentIdBreadcrumbsArray = Notes.pIDBreadcrumbs({parentId: cachedCurrentPID});
-	Ti.API.log('parentIdBreadcrumbsArray: ' + JSON.stringify(parentIdBreadcrumbsArray,null,4));
-	// -- open each list
-	for (var i in parentIdBreadcrumbsArray) {
-		Notes.setCurrentPID(parentIdBreadcrumbsArray[i]);
-		mainNavGroup.open(newList().win);
-	}
-	parentIdBreadcrumbsArray = [];
-	
-	Ti.API.log('\n mainContainer.statusBarStyle: ' + mainContainer.statusBarStyle);
+	goToNote(cachedCurrentPID);
 }
+
