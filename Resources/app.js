@@ -99,7 +99,6 @@ mainContainer.open({modal: true});
 /**
  * SHOW TUTORIAL
  */
-Settings.setTutorialSeen({seen: false}); 
 Ti.API.log("Settings.tutorialSeen(): " + Settings.tutorialSeen());
 if (Settings.tutorialSeen() == false) {
 	setTimeout(function(){
