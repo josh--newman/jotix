@@ -58,7 +58,6 @@ var composeWin = require('main/composeViewController');
  */
 var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({top: 20});
 
-Notes.setCurrentPID(-1);
 var cachedCurrentPID = Notes.currentPID();
 Notes.setCurrentPID(-1); 	// root note
 
