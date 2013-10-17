@@ -15,6 +15,11 @@
  *     > ...STUFF
  */
 
+// DATABASE TESTING
+Ti.include('/model/database.js');
+
+var database = new Database();
+
 /**
  * SETTINGS INCLUDES
  */
@@ -116,3 +121,8 @@ if (cachedCurrentPID != -1) {
 	
 	Ti.API.log('\n mainContainer.statusBarStyle: ' + mainContainer.statusBarStyle);
 }
+
+
+
+
+
