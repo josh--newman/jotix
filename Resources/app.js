@@ -21,6 +21,12 @@ Ti.include('/model/database.js');
 var database = new Database();
 
 /**
+ * SOUND
+ */
+Ti.include('/sound/soundController.js');
+
+
+/**
  * SETTINGS INCLUDES
  */
 Ti.include('/model/settings.js');
@@ -50,14 +56,13 @@ Ti.include('/main/mainButtonsController.js');
 Ti.include('/main/searchView.js');
 Ti.include('/main/searchController.js');
 var newList = require('main/notesViewController');
-var composeWin = require('main/composeView');
+var composeWin = require('main/composeViewController');
 
 /**
  * JOTIX MAIN
  */
 var mainNavGroup = Ti.UI.iPhone.createNavigationGroup({top: 20});
 
-Notes.setCurrentPID(-1);
 var cachedCurrentPID = Notes.currentPID();
 Notes.setCurrentPID(-1); 	// root note
 

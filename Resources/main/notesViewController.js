@@ -4,11 +4,14 @@
  * View & Controller
  */
 
+Ti.include('/main/notesView.js');
+Ti.include('/main/notesController.js');
+
 function createNewList(){
-	Ti.API.log('newList()');
-	Ti.include('/main/notesView.js');
-	Ti.include('/main/notesController.js');
-	return {win: self, updateView: updateView};
+	Ti.API.log('createNewList()');
+	var self = new NoteView();
+	self.addEventListeners();
+	return self;
 }
 
 module.exports = createNewList;

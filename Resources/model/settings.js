@@ -98,11 +98,11 @@ var Settings = {
 					},
 		 setVolume: function(vol) {
 						if (vol <= VOL_MAX && vol >= VOL_MIN) {
-							Ti.App.Properties.setInt("volume", Math.round(vol));
+							Ti.App.Properties.setInt("volume", vol);
 						}
 					},
 		    volume: function() {
-						return Ti.App.Properties.getInt("volume", 50);
+						return Ti.App.Properties.getInt("volume", 50) * 0.01;
 					},
 	// TUTORIAL
    setTutorialSeen: function(_args) {
