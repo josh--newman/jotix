@@ -12,9 +12,6 @@ settingsSoundToggle.addEventListener('change', function(e){
 	}
 	Settings.setSound(e.value);
 });
-// volumeSlider.addEventListener('change', function(e){
-	// Ti.API.log('volume: ' + Math.round(e.value));
-// });
 settingsSoundVolumeSlider.addEventListener('touchend', function(e){
 	Settings.setVolume(e.value);
 	playSound("HI");
