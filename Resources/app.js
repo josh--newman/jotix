@@ -17,8 +17,10 @@
 
 // DATABASE TESTING
 Ti.include('/model/database.js');
-
 var database = new Database();
+// database.createNote(-1, "1612ICT");
+
+
 
 /**
  * SOUND
@@ -129,5 +131,10 @@ if (cachedCurrentPID != -1) {
 
 
 
+var notes = database.showAllNotes();
+for (var i = 0; i < notes.length; i++) {
+	Ti.API.log('Notes: ' + JSON.stringify(notes[i],null,4));
+};
 
+// Ti.API.log('NEW NOTE: ' + JSON.stringify(database.createNote(-1, "2001ICT")));
 

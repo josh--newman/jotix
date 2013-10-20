@@ -10,7 +10,20 @@ Database.prototype.createNote = function(parentId, content) {
 	var index = getNextIndex(parentId, db);
 	var breadcrumbs = db.execute('SELECT breadcrumbs FROM notes WHERE noteId = (?)', parentId).fieldByName('breadcrumbs') + ">" + content;
 	db.execute('INSERT INTO notes (parentId, content, [index], breadcrumbs) VALUES (?,?,?,?)', parentId, content, index, breadcrumbs);
+	var rows = db.execute('SELECT parentId, content, noteId, breadcrumbs FROM notes WHERE noteId = (?)', db.lastInsertRowId);
+	var result = [];
+	while (rows.isValidRow()) {
+		result.push({
+			content: rows.fieldByName('content'),
+			noteId: rows.fieldByName('noteId'),
+			parentId: rows.fieldByName('parentId'),
+			breadcrumbs: rows.fieldByName('breadcrumbs')
+		});
+		rows.next();
+	}
+	rows.close();
 	db.close();
+	return result;
 };
 
 // load notes list
@@ -68,7 +81,12 @@ Database.prototype.showAllNotes = function() {
 Database.prototype.updateNote = function(id, newContent) {
 	db = Ti.Database.open(DB_NAME);
 	var parentId = db.execute('SELECT parentId FROM notes WHERE noteId = (?)', id).fieldByName('parentId', Titanium.Database.FIELD_TYPE_INT);
-	var breadcrumbs = db.execute('SELECT breadcrumbs FROM notes WHERE noteId = (?)', parentId).fieldByName('breadcrumbs') + ">" + newContent;
+	var breadcrumbs;
+	if (parentId = -1) {
+		breadcrumbs = "";
+	} else {
+		breadcrumbs = db.execute('SELECT breadcrumbs FROM notes WHERE noteId = (?)', parentId).fieldByName('breadcrumbs') + ">" + newContent;
+	}
 	db.execute('UPDATE notes SET content = (?), dateModified = CURRENT_TIMESTAMP, breadcrumbs = (?) WHERE noteId = (?)', newContent, breadcrumbs, id);
 	//set breadcrumbs
 	db.close();
@@ -83,19 +101,28 @@ Database.prototype.deleteNote = function(id) {
 
 // get content at ID
 Database.prototype.contentAtID = function(id) {
-	db = Ti.Database.open(DB_NAME);
-	var rows = db.execute('SELECT content FROM notes WHERE noteId = ?', id);
-	var result = [];
-	while (rows.isValidRow()) {
-		result.push({
-			content: rows.fieldByName('content')
-		});
-		rows.next();
+	if (id == -1) {
+		return "Jotix Note App";
 	}
-	rows.close();
-	db.close();
-	return result;
+	else {
+		db = Ti.Database.open(DB_NAME);
+		var rows = db.execute('SELECT content FROM notes WHERE noteId = ?', parseInt(id));
+		Ti.API.log("Rows("+id+"): " + JSON.stringify(rows,null,4));
+		var result = [];
+		while (rows.isValidRow()) {
+			result.push({
+				content: rows.fieldByName('content')
+			});
+			rows.next();
+		}
+		rows.close();
+		db.close();
+		return result;
+	}
+	
 };
+
+// get lists from parent id up
 
 
 // helper methods

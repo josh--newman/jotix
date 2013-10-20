@@ -118,6 +118,7 @@ NoteView.prototype.createTableData = function() {
 
 	for (var i = 0; i < notesArr.length; i++) {
 		var row = this.createRow(notesArr[i].content, i, notesArr[i].noteId, notesArr[i].parentId).row;
+		Ti.API.log("ROW: " + JSON.stringify(row,null,4));
 		data.add(row);
 	}
 	return data;

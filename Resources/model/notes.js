@@ -24,26 +24,14 @@ var Notes = {
 	{
 		Ti.API.log('Notes.contentAtID(): ' + JSON.stringify(_args,null,4));
 		var PID = _args.parentId;
-		for (var n in notesFlatDatabase) {
-			if (notesFlatDatabase[n].noteId == PID) {
-				return notesFlatDatabase[n].content;
-			}
-		}
-		return "";
+		return database.contentAtID(PID);
 	},
 	notesArray: function(_args)
 	{
 		Ti.API.log('Notes.notesArray(): ' + JSON.stringify(_args,null,4));
 		var PID = _args.parentId;
 		// FIND ALL instances of that item
-		var notesWithThisPID = [];
-		for (var n in notesFlatDatabase) {
-			if (notesFlatDatabase[n].parentId == PID) {
-				notesWithThisPID.push(notesFlatDatabase[n]);
-			}
-		}
-		Ti.API.log('notesFlatDatabase: ' + JSON.stringify(notesFlatDatabase,null,4));
-		return notesWithThisPID;
+		return database.showNotes(PID);
 	},
 	pIDBreadcrumbs: function(_args)
 	{
@@ -63,37 +51,24 @@ var Notes = {
 	insertNote: function(_args)
 	{
 		Ti.API.log('Notes.insertNote(): ' + JSON.stringify(_args,null,4));
+		var content = "";
 		var insertIndex = _args.index,
 		insertIntoParentId = _args.parentId;
 		Ti.App.Properties.setString("currentPID", insertIntoParentId);
-		var newNote = _insertNewBlankNote(insertIntoParentId, insertIndex);
-		_syncDatabase();
-		return newNote;
+		return database.createNote(insertIntoParentId, content);
 	},
 	removeNote: function(_args)
 	{
 		Ti.API.log('Notes.removeNote(): ' + JSON.stringify(_args,null,4));
 		var removeId = _args.id;
-		for (var n in notesFlatDatabase) {
-			if (notesFlatDatabase[n].noteId == removeId) {
-				// splice out of database
-				Ti.API.log('Removed: ' +notesFlatDatabase.splice(n,1));
-			}
-		}
-		_syncDatabase();
+		database.deleteNote(removeId);
 	},
 	amendNote: function(_args)
 	{
 		Ti.API.log('Notes.amendNote(): ' + JSON.stringify(_args,null,4));
 		var amendID = _args.id,
 		amendContent = _args.content;
-		for (var n in notesFlatDatabase) {
-			if (notesFlatDatabase[n].noteId == amendID) {
-				notesFlatDatabase[n].content = amendContent;
-				notesFlatDatabase[n].breadcrumbs = _breadcrumbs(amendID) +">"+ amendContent;
-			}
-		}
-		_syncDatabase();
+		database.updateNote(amendID, amendContent);
 	},
 	superParent: function(_args)
 	{

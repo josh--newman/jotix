@@ -68,25 +68,27 @@ function composeView(_args) {
 		enabled: false
 	});
 	
-	// ta.keyboardToolbar = [composeDoneButton, flexButton, composeAddButton];
-	// ta.keyboardToolbarColor = '#999';
-    // ta.keyboardToolbarHeight = 44;
+	ta.keyboardToolbar = [composeDoneButton, flexButton, composeAddButton];
+	ta.keyboardToolbarColor = '#999';
+    ta.keyboardToolbarHeight = 44;
 	
 	// Add view to self
 	var contentWin = Ti.UI.createWindow({
-		navBarHidden: true
+		navBarHidden: false
 	});
 	contentWin.add(view);
 	
 	var nav = Ti.UI.iPhone.createNavigationGroup({
-		window: contentWin
+		window: contentWin,
+		navBarHidden: true
 	});
 	
 	// create self
 	self = Ti.UI.createWindow({
 		top: 0,
 		leftNavButton: composeDoneButton,
-		rightNavButton: composeAddButton
+		rightNavButton: composeAddButton,
+		navBarHidden: false
 	});
 	self.add(nav);
 

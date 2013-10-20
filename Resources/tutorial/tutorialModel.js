@@ -8,19 +8,19 @@ var NAV_HEIGHT = 44;
 
 var cardArray = [
 	{
-		image: 'images/welcome_shot.png',
+		image: 'images/tutorial_1.png',
 		title: 'Welcome to Jotix',
 		subtitle: 'So simple bro'
 	},
 	{
-		image: 'images/car2.jpg',
-		title: 'Modern',
-		subtitle: 'Super modern and stuff'
+		image: 'images/tutorial_2.png',
+		title: 'Useful',
+		subtitle: 'Great for perfect notes'
 	},
 	{
-		image: 'images/car3.jpg',
-		title: 'Elegant',
-		subtitle: "Isn't it pretty?"
+		image: 'images/tutorial_3.png',
+		title: 'Simple',
+		subtitle: "Adding a note is a easy"
 	}
 	
 ];
